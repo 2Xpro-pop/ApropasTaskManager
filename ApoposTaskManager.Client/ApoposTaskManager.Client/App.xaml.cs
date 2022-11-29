@@ -8,12 +8,16 @@ namespace ApoposTaskManager.Client
 {
     public partial class App : Application
     {
+        public const string BackendIp = "localhost";
+        public const string BackendPort = "5186";
 
         public App()
         {
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
+            DependencyService.RegisterSingleton<IHttpClientFactory>(new HttpClientFactory());
+
             MainPage = new AppShell();
         }
 

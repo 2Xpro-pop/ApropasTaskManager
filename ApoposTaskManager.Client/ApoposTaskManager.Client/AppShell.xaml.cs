@@ -15,5 +15,6 @@ namespace ApoposTaskManager.Client
             Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
         }
 
+
     }
 }

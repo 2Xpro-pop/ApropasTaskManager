@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApoposTaskManager.Client", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApropasTaskManager.Server", "ApropasTaskManager.Server\ApropasTaskManager.Server.csproj", "{27CAAE38-DDF2-451D-87AA-0E7EA6790FD4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApropasTaskManager.Shared", "ApropasTaskManager.Shared\ApropasTaskManager.Shared.csproj", "{4F08A5A8-485F-47CE-BFCC-80AE8A7E5346}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,18 @@ Global
 		{27CAAE38-DDF2-451D-87AA-0E7EA6790FD4}.Release|iPhone.Build.0 = Release|Any CPU
 		{27CAAE38-DDF2-451D-87AA-0E7EA6790FD4}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{27CAAE38-DDF2-451D-87AA-0E7EA6790FD4}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{4F08A5A8-485F-47CE-BFCC-80AE8A7E5346}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F08A5A8-485F-47CE-BFCC-80AE8A7E5346}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F08A5A8-485F-47CE-BFCC-80AE8A7E5346}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{4F08A5A8-485F-47CE-BFCC-80AE8A7E5346}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{4F08A5A8-485F-47CE-BFCC-80AE8A7E5346}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{4F08A5A8-485F-47CE-BFCC-80AE8A7E5346}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{4F08A5A8-485F-47CE-BFCC-80AE8A7E5346}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F08A5A8-485F-47CE-BFCC-80AE8A7E5346}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F08A5A8-485F-47CE-BFCC-80AE8A7E5346}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{4F08A5A8-485F-47CE-BFCC-80AE8A7E5346}.Release|iPhone.Build.0 = Release|Any CPU
+		{4F08A5A8-485F-47CE-BFCC-80AE8A7E5346}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{4F08A5A8-485F-47CE-BFCC-80AE8A7E5346}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
