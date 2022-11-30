@@ -14,9 +14,8 @@ public class JwtTokenProvider : IJwtTokenProvider
         _authOptions = authOptions.Value;
     }
 
-    public string Generate(string login)
+    public string Generate(IEnumerable<Claim> claims)
     {
-        var claims = new List<Claim> { new Claim(ClaimTypes.Name, login) };
         // создаем JWT-токен
         var jwt = new JwtSecurityToken(
                 issuer: _authOptions.Issuers.First(),

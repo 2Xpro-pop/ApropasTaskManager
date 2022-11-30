@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace ApoposTaskManager.Client.Services
 {
-    public class AuthService
+    public class AuthService : IAuthService
     {
         private readonly IHttpClientFactory _httpClientFactory = DependencyService.Get<IHttpClientFactory>();
         public async Task<bool> Login(string login, string password)
@@ -21,14 +21,14 @@ namespace ApoposTaskManager.Client.Services
                         { "password", password }
                     };
 
-            var response = await client.GetAsync("/login" + queryBuilder.ToString());
+            var response = await client.GetAsync("api/auth/login" + queryBuilder.ToString());
 
             if (!response.IsSuccessStatusCode)
             {
                 return false;
             }
 
-            
+            _httpClientFactory.Jwt = await response.Content.ReadAsStringAsync();
 
             return true;
         }

@@ -16,6 +16,7 @@ namespace ApoposTaskManager.Client
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();
+            DependencyService.Register<IAuthService, AuthService>();
             DependencyService.RegisterSingleton<IHttpClientFactory>(new HttpClientFactory());
 
             MainPage = new AppShell();

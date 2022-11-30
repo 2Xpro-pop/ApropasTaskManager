@@ -47,26 +47,16 @@ namespace ApoposTaskManager.Client.ViewModels
             LoginCommand = ReactiveCommand.CreateFromTask(
                 async () =>
                 {
-                    var client = DependencyService.Get<IHttpClientFactory>().Create();
+                    var authService = DependencyService.Get<IAuthService>();
 
-                    var queryBuilder = new QueryBuilder
+                    var result = await authService.Login(Login, Password);
+
+                    if(result)
                     {
-                        { "login", Login },
-                        { "password", Password }
-                    };
-
-                    HttpResponseMessage response = null;
-
-                    response = await client.GetAsync("/login" + queryBuilder.ToString());
-
-
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        return false;
+                        await Shell.Current.GoToAsync("//main");
                     }
 
-                    await Shell.Current.GoToAsync("//main");
-                    return true;
+                    return result;
                 },
                 validation
             );

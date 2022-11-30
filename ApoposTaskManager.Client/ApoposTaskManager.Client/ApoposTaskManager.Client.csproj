@@ -17,6 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ApropasTaskManager.Shared\ApropasTaskManager.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Styles\TextStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

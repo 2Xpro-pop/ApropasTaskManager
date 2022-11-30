@@ -1,4 +1,5 @@
 ﻿using ApropasTaskManager.Server.Models;
+using ApropasTaskManager.Shared;
 using Microsoft.AspNetCore.Identity;
 
 namespace ApropasTaskManager.Server;
