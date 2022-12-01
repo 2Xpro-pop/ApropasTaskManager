@@ -30,6 +30,8 @@ namespace ApoposTaskManager.Client.Services
 
             _httpClientFactory.Jwt = await response.Content.ReadAsStringAsync();
 
+            await DependencyService.Get<IUserService>().GetUserInfo();
+
             return true;
         }
     }

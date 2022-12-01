@@ -17,7 +17,7 @@ namespace ApoposTaskManager.Client.Services
         {
             var client = new HttpClient();
 
-            if (string.IsNullOrWhiteSpace(Jwt))
+            if (!string.IsNullOrWhiteSpace(Jwt))
             {
                 client.DefaultRequestHeaders.Add("Authorization", $"Bearer {Jwt}");
             }

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Shell xmlns="http://xamarin.com/schemas/2014/forms" 
+<rxui:ReactiveShell xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:ApoposTaskManager.Client.Views"
        Title="ApoposTaskManager.Client"
+       xmlns:rxui="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
+       xmlns:vm="clr-namespace:ApoposTaskManager.Client.ViewModels"
+       x:DataType="vm:ShellViewModel"
+       x:TypeArguments="vm:ShellViewModel"
        x:Class="ApoposTaskManager.Client.AppShell">
 
     <!--
@@ -33,10 +37,15 @@
         <ShellContent ContentTemplate="{DataTemplate local:LoginPage}" />
     </ShellItem>
 
-    <TabBar Route="main">
+    <TabBar x:Name="bar" Route="main">
         <ShellContent Title="About" Icon="icon_about.png" Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
         <ShellContent Title="Browse" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:ItemsPage}" />
+
+        <Tab x:Name="adminTab" Title="Admin" Icon="icon_feed.png" IsVisible="{Binding IsDirector}">
+            <ShellContent  Route="AdminPage" ContentTemplate="{DataTemplate local:AdminPage}" />
+        </Tab>
+        
     </TabBar>
 
 
-</Shell>
+</rxui:ReactiveShell>

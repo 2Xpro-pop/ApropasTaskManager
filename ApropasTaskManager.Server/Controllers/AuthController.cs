@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using ApropasTaskManager.Server.Models;
 using ApropasTaskManager.Server.Services;
 using ApropasTaskManager.Shared;
 using Microsoft.AspNetCore.Authorization;
