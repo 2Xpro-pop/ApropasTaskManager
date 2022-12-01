@@ -1,4 +1,4 @@
-project: TestSharp.Hi
+project: ApoposTaskManager.Client
 name: $2
 commands: 
   rx-page:
