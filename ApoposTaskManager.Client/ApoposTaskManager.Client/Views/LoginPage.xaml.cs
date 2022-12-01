@@ -1,4 +1,8 @@
-﻿using System;
+﻿#if DEBUG
+#define DIRECTOR
+#endif
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Disposables;
@@ -77,6 +81,15 @@ namespace ApoposTaskManager.Client.Views
                     error.Text = "Failed to establish a connection with the server";
                 }).DisposeWith(disposables);
             });
+#if DEBUG
+
+#if DIRECTOR
+            ViewModel.Login = "director";
+            ViewModel.Password = "Apr@12345";
+            ViewModel.LoginCommand.Execute();
+#endif
+
+#endif
         }
     }
 }

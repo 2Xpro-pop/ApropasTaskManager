@@ -18,6 +18,7 @@ namespace ApoposTaskManager.Client
             ViewModel = new ShellViewModel();
 
             Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
+            Routing.RegisterRoute(nameof(AddPersonalPage), typeof(AddPersonalPage));
             Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
 
         }

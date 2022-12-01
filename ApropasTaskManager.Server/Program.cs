@@ -1,6 +1,6 @@
 using ApropasTaskManager.Server;
-using ApropasTaskManager.Server.Models;
 using ApropasTaskManager.Server.Services;
+using ApropasTaskManager.Shared;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +19,12 @@ builder.Services.AddDbContext<ApplicationContext>( options => options.UseSqlServ
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequiredLength = 5;
+    options.Password.RequiredUniqueChars = 0;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
 }).AddEntityFrameworkStores<ApplicationContext>()
    .AddDefaultTokenProviders();
 

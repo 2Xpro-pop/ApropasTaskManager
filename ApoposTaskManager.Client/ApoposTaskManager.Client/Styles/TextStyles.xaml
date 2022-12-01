@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary 
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-    <Style x:Key="warning" TargetType="Label">
+    <Style x:Key="Warning" TargetType="Label">
         <Setter Property="TextColor" Value="Red"/>
         <Setter Property="Margin" Value="8,0,0,10"/>
     </Style>

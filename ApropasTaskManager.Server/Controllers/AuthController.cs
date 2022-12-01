@@ -48,31 +48,21 @@ public class AuthController : ControllerBase
     }
 
     [Authorize(AuthenticationSchemes = "Bearer", Roles = nameof(UserRoles.Director))]
-    [HttpPut("register")]
-    public async Task<IActionResult> Register(string login, string password, string role)
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] User user)
     {
-        var user = await _userManager.FindByNameAsync(login);
-
-        if (user != null)
+        var us = await _userManager.FindByNameAsync(user.UserName);
+        if (us != null)
         {
             return BadRequest("USER_EXIST");
         }
 
-        if (!Enum.GetNames<UserRoles>().Contains(role))
-        {
-            return BadRequest("BAD_ROLE");
-        }
-
-        if (role == Enum.GetName(UserRoles.Director))
+        if (user.Role == UserRoles.Director)
         {
             return BadRequest("ONLY_ONE_DIRECTOR");
         }
 
-        user = new User
-        {
-            UserName = login
-        };
-
+        var password = Guid.NewGuid().ToString("N").Remove(5).ToUpper();
         var result = await _userManager.CreateAsync(user, password);
 
         if (!result.Succeeded)
@@ -80,9 +70,15 @@ public class AuthController : ControllerBase
             return StatusCode(500);
         }
 
-        await _userManager.AddToRoleAsync(user, role);
+        result = await _userManager.AddToRoleAsync(user, Enum.GetName(user.Role));
 
-        return Ok();
+        if (!result.Succeeded)
+        {
+            await _userManager.DeleteAsync(user);
+            return StatusCode(500);
+        }
+
+        return Ok(password);
 
     }
 }

@@ -13,11 +13,11 @@
 
     <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
         
-        <Label x:Name="error" IsVisible="False" Style="{StaticResource warning}"/>
+        <Label x:Name="error" IsVisible="False" Style="{StaticResource Warning}"/>
         <Entry Text="{Binding Login}"/>
-        <Label x:Name="loginWarning" IsVisible="False" Style="{StaticResource warning}"/>
+        <Label x:Name="loginWarning" IsVisible="False" Style="{StaticResource Warning}"/>
         <Entry Text="{Binding Password}" IsPassword="True"/>
-        <Label x:Name="passwordWarning" IsVisible="False" Style="{StaticResource warning}"/>
+        <Label x:Name="passwordWarning" IsVisible="False" Style="{StaticResource Warning}"/>
         <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
         
     </StackLayout>

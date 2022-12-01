@@ -19,5 +19,10 @@ namespace ApoposTaskManager.Client.Views
 
             ViewModel = new AddPersonalViewModel();
 		}
-	}
+
+        protected override void OnAppearing()
+        {
+            
+        }
+    }
 }

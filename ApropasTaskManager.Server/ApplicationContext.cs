@@ -1,4 +1,4 @@
-﻿using ApropasTaskManager.Server.Models;
+﻿using ApropasTaskManager.Shared;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

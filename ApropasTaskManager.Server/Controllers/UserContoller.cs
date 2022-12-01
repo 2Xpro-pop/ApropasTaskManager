@@ -10,6 +10,7 @@ namespace ApropasTaskManager.Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class UserController : ControllerBase
 {
     private readonly UserManager<User> _userManager;
@@ -18,8 +19,6 @@ public class UserController : ControllerBase
     {
         _userManager = userManager;
     }
-
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [HttpGet]
     public Task<User> GetUser()
     {

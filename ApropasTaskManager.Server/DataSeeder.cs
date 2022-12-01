@@ -1,4 +1,4 @@
-﻿using ApropasTaskManager.Server.Models;
+﻿
 using ApropasTaskManager.Shared;
 using Microsoft.AspNetCore.Identity;
 
@@ -6,7 +6,7 @@ namespace ApropasTaskManager.Server;
 
 public static class DataSeeder
 {
-    public static async Task InitializeAsync(UserManager<Models.User> userManager, RoleManager<IdentityRole> roleManager)
+    public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
     {
         // Создание ролей
         foreach (var role in Enum.GetNames<UserRoles>())
@@ -19,7 +19,7 @@ public static class DataSeeder
         // Создание пользователей
         if (await userManager.FindByNameAsync("director") == null)
         {
-            var user = new Models.User
+            var user = new User
             {
                 UserName = "director"
             };
@@ -31,7 +31,7 @@ public static class DataSeeder
         }
         if (await userManager.FindByNameAsync("projectManager") == null)
         {
-            var user = new Models.User
+            var user = new User
             {
                 UserName = "projectManager",
             };
@@ -43,7 +43,7 @@ public static class DataSeeder
         }
         if (await userManager.FindByNameAsync("employee") == null)
         {
-            var user = new Models.User
+            var user = new User
             {
                 UserName = "employee",
             };
