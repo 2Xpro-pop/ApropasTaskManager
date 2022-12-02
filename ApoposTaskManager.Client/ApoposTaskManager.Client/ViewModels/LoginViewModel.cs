@@ -11,11 +11,14 @@ using ApoposTaskManager.Client.Views;
 using Microsoft.AspNetCore.Http.Extensions;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using ReactiveUI.Validation.Abstractions;
+using ReactiveUI.Validation.Contexts;
+using ReactiveUI.Validation.Extensions;
 using Xamarin.Forms;
 
 namespace ApoposTaskManager.Client.ViewModels
 {
-    public class LoginViewModel : ReactiveObject
+    public class LoginViewModel : ReactiveObject, IValidatableViewModel
     {
         [Reactive]
         public string Login
@@ -35,21 +38,27 @@ namespace ApoposTaskManager.Client.ViewModels
             get;
         }
 
+        public ValidationContext ValidationContext { get; } = new ValidationContext();
+
         public LoginViewModel()
         {
-            var validation = this.WhenAnyValue(vm => vm.Login, vm => vm.Password, (login, password) =>
-            {
-                return !string.IsNullOrWhiteSpace(login)
-                       && !string.IsNullOrEmpty(password)
-                       && password.Length > 8;
-            });
+            this.ValidationRule(
+                vm => vm.Login,
+                login => !string.IsNullOrWhiteSpace(login),
+                "The login cannot be empty!");
+
+            this.ValidationRule(
+                vm => vm.Password,
+                password => password?.Length > 4,
+                "The password must be greater than 4");
+
 
             LoginCommand = ReactiveCommand.CreateFromTask(
                 async () =>
                 {
                     var authService = DependencyService.Get<IAuthService>();
 
-                    var result = await authService.Login(Login, Password);
+                    var result = await authService.LoginAsync(Login, Password);
 
                     if(result)
                     {
@@ -57,9 +66,7 @@ namespace ApoposTaskManager.Client.ViewModels
                     }
 
                     return result;
-                },
-                validation
-            );
+                }, ValidationContext.Valid);
         }
 
     }

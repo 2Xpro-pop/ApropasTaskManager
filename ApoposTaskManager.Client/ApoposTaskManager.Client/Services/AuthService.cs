@@ -11,7 +11,7 @@ namespace ApoposTaskManager.Client.Services
     public class AuthService : IAuthService
     {
         private readonly IHttpClientFactory _httpClientFactory = DependencyService.Get<IHttpClientFactory>();
-        public async Task<bool> Login(string login, string password)
+        public async Task<bool> LoginAsync(string login, string password)
         {
             var client = _httpClientFactory.Create();
 

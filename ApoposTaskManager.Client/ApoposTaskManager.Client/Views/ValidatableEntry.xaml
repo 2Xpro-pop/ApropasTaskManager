@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rxui:ReactiveContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:rxui="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
+             xmlns:vm="clr-namespace:ApoposTaskManager.Client.ViewModels"
+             xmlns:local="clr-namespace:ApoposTaskManager.Client.Views"
+             x:Class="ApoposTaskManager.Client.Views.ValidatableEntry"
+             x:DataType="vm:ValidatableEntryViewModel"
+             x:Name="self"
+             x:TypeArguments="vm:ValidatableEntryViewModel">
+    <Frame Style="{DynamicResource ValidEntryFrame}" 
+           CornerRadius="{StaticResource ValidatableEntryBorderRadius}" 
+           BackgroundColor="{Binding BackgroundColor, Source={x:Reference self}}"
+           Background="{Binding Background, Source={x:Reference self}}">
+        
+        <Frame.Triggers>
+            <DataTrigger TargetType="Frame"
+                         Binding="{Binding ErrorMessage, Source={x:Reference self}, Converter={StaticResource IsNullOrEmptyConverter}}"
+                         Value="False">
+                <Setter Property="Style" Value="{DynamicResource InValidEntryFrame}"/>
+            </DataTrigger>
+        </Frame.Triggers>
+        
+        <Grid>
+            <local:BorderlessEntry Text="{Binding Text, Mode=TwoWay}" Placeholder="{Binding Placeholder}"/>
+            <Label x:Name="warning" Text="{Binding ErrorMessage, Mode=TwoWay}" Style="{StaticResource Warning}" TranslationY="-10"/>
+        </Grid>
+        
+    </Frame>
+    
+</rxui:ReactiveContentView>

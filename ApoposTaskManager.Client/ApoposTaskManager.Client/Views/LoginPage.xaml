@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:rxui="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
              xmlns:vm="clr-namespace:ApoposTaskManager.Client.ViewModels"
+             xmlns:local="clr-namespace:ApoposTaskManager.Client.Views"
              mc:Ignorable="d"
              x:Class="ApoposTaskManager.Client.Views.LoginPage"
              Shell.NavBarIsVisible="False"
@@ -14,10 +15,10 @@
     <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
         
         <Label x:Name="error" IsVisible="False" Style="{StaticResource Warning}"/>
-        <Entry Text="{Binding Login}"/>
-        <Label x:Name="loginWarning" IsVisible="False" Style="{StaticResource Warning}"/>
-        <Entry Text="{Binding Password}" IsPassword="True"/>
-        <Label x:Name="passwordWarning" IsVisible="False" Style="{StaticResource Warning}"/>
+
+        <local:ValidatableEntry x:Name="loginEntry" Placeholder="Login"/>
+        <local:ValidatableEntry x:Name="passwordEntry" Placeholder="Password"/>
+        
         <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
         
     </StackLayout>

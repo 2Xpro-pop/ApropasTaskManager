@@ -7,8 +7,7 @@
         Define global resources and styles here, that apply to all pages in your app.
     -->
     <Application.Resources>
-        <ResourceDictionary Source="Styles/TextStyles.xaml"/>
-        <ResourceDictionary Source="Styles/ButtonStyles.xaml"/>
+        
         <ResourceDictionary>
             <xct:IsNullOrEmptyConverter x:Key="IsNullOrEmptyConverter" />
             <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
@@ -32,6 +31,9 @@
                     </VisualStateGroupList>
                 </Setter>
             </Style>
-        </ResourceDictionary>        
+        </ResourceDictionary>
+        <ResourceDictionary Source="Styles/TextStyles.xaml"/>
+        <ResourceDictionary Source="Styles/ButtonStyles.xaml"/>
+        <ResourceDictionary Source="Styles/ValidatableEntryStyles.xaml"/>
     </Application.Resources>
 </Application>

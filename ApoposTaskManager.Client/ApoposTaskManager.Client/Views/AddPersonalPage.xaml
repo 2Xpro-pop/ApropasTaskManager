@@ -21,7 +21,6 @@
                 <Label Text="{Binding Password, StringFormat='Password is {0}'}"/>
             </StackLayout>
             <Button Command="{Binding CancelCommand}" Text="Cancel" Style="{StaticResource Secondary}"/>
-            <Label Text="{Binding }"
         </StackLayout>
     </ContentPage.Content>
 </rxui:ReactiveContentPage>

@@ -17,18 +17,7 @@ namespace ApoposTaskManager.Client.ViewModels
 
         public AdminViewModel()
         {
-            AddPersonalCommand = new Command(async () =>
-            {
-                try
-                {
-
-                    await Shell.Current.GoToAsync(nameof(AddPersonalPage));
-                }
-                catch (Exception exc)
-                {
-                    
-                }
-            });
+            AddPersonalCommand = ReactiveCommand.CreateFromTask(() => Shell.Current.GoToAsync(nameof(AddPersonalPage)));
         }
         
     }

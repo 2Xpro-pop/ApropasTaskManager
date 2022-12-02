@@ -1,6 +1,4 @@
-﻿#if DEBUG
-#define DIRECTOR
-#endif
+﻿/*#define DIRECTOR*/
 
 using System;
 using System.Collections.Generic;
@@ -12,6 +10,7 @@ using System.Threading.Tasks;
 using ApoposTaskManager.Client.ViewModels;
 using DynamicData.Binding;
 using ReactiveUI;
+using ReactiveUI.Validation.Extensions;
 using ReactiveUI.XamForms;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -36,35 +35,17 @@ namespace ApoposTaskManager.Client.Views
             // for validation viewModel
             this.WhenActivated(disposables =>
             {
-                this.WhenAnyValue(v => v.ViewModel.Login)
-                    .Skip(1) // Skip first change(it's just start value)
-                    .Subscribe(login =>
-                    {
-                        if (string.IsNullOrEmpty(login))
-                        {
-                            loginWarning.IsVisible = true;
-                            loginWarning.Text = "The login cannot be empty!";
-                        }
-                        else
-                        {
-                            loginWarning.IsVisible = false;
-                        }
-                    }).DisposeWith(disposables);
+                this.Bind(ViewModel, vm => vm.Login, v => v.loginEntry.Text)
+                    .DisposeWith(disposables);
 
-                this.WhenAnyValue(v => v.ViewModel.Password)
-                    .Skip(1) // Skip first change(it's just start value)
-                    .Subscribe(password =>
-                    {
-                        if (string.IsNullOrEmpty(password) || password.Length <= 8)
-                        {
-                            passwordWarning.IsVisible = true;
-                            passwordWarning.Text = "The password must be greater than 8";
-                        }
-                        else
-                        {
-                            passwordWarning.IsVisible = false;
-                        }
-                    }).DisposeWith(disposables);
+                this.Bind(ViewModel, vm => vm.Password, v => v.passwordEntry.Text)
+                    .DisposeWith(disposables);
+
+                this.BindValidation(ViewModel, vm => vm.Login, v => v.loginEntry.ErrorMessage)
+                    .DisposeWith(disposables);
+
+                this.BindValidation(ViewModel, vm => vm.Password, v => v.passwordEntry.ErrorMessage)
+                    .DisposeWith(disposables);
 
                 ViewModel.LoginCommand.Subscribe(result =>
                 {

@@ -8,11 +8,13 @@ using ApoposTaskManager.Client.Services;
 using ApropasTaskManager.Shared;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using ReactiveUI.Validation.Abstractions;
+using ReactiveUI.Validation.Contexts;
 using Xamarin.Forms;
 
 namespace ApoposTaskManager.Client.ViewModels
 {
-    public class AddPersonalViewModel: ReactiveObject
+    public class AddPersonalViewModel: ReactiveObject, IValidatableViewModel
     {
         [Reactive] public string Login { get; set; }
         [Reactive] public string Name { get; set; }
@@ -20,7 +22,9 @@ namespace ApoposTaskManager.Client.ViewModels
         [Reactive] public string Middlename { get; set; }
         [ObservableAsProperty] public string Password { get; }
         public ReactiveCommand<Unit, string> AddPersonalCommand { get; } 
-        public ICommand CancelCommand { get; } 
+        public ICommand CancelCommand { get; }
+
+        public ValidationContext ValidationContext { get; } = new ValidationContext();
 
         public AddPersonalViewModel()
         {

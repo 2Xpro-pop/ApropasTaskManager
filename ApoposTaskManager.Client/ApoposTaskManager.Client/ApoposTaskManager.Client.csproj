@@ -23,7 +23,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\ValidatableEntry.xaml.cs">
+      <DependentUpon>ValidatableEntry.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Styles\ButtonStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Styles\ValidatableEntryStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Styles\TextStyles.xaml">
