@@ -10,6 +10,7 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using ReactiveUI.Validation.Abstractions;
 using ReactiveUI.Validation.Contexts;
+using ReactiveUI.Validation.Extensions;
 using Xamarin.Forms;
 
 namespace ApoposTaskManager.Client.ViewModels
@@ -28,19 +29,26 @@ namespace ApoposTaskManager.Client.ViewModels
 
         public AddPersonalViewModel()
         {
-            var validation = this.WhenAnyValue(vm => vm.Login, vm => vm.Name, vm => vm.Surname, vm => vm.Middlename, (login, name, surname, middlename) =>
-            {
-                // ÍÅ ÑÄÅËÀË Â ÎÄÍÓ ÑÒÐÎÊÓ ÑÏÅÖÈÀËÜÍÎ
-                if (string.IsNullOrEmpty(login) || login.Contains(" "))
-                    return false;
-                if (string.IsNullOrEmpty(name))
-                    return false;
-                if (string.IsNullOrEmpty(surname))
-                    return false;
-                if (string.IsNullOrEmpty(middlename))
-                    return false;
-                return true;
-            });
+
+            this.ValidationRule(
+                vm => vm.Login, 
+                login => !string.IsNullOrEmpty(login) && !login.Contains(" "),
+                "The login can't contains space & can't be empty");
+
+            this.ValidationRule(
+                vm => vm.Name,
+                login => !string.IsNullOrEmpty(login),
+                "The name can't be empty");
+
+            this.ValidationRule(
+                vm => vm.Surname,
+                login => !string.IsNullOrEmpty(login),
+                "The surname can't be empty");
+
+            this.ValidationRule(
+                vm => vm.Middlename,
+                login => !string.IsNullOrEmpty(login),
+                "The middlename can't be empty");
 
             AddPersonalCommand = ReactiveCommand.CreateFromTask(async () =>
             {
@@ -56,7 +64,7 @@ namespace ApoposTaskManager.Client.ViewModels
                 });
 
                 return password;
-            }, validation);
+            }, ValidationContext.Valid);
 
             AddPersonalCommand.ToPropertyEx(this, vm => vm.Password);
 
