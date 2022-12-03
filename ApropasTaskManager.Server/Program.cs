@@ -14,7 +14,11 @@ var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.Configure<AuthOptions>(builder.Configuration.GetSection("Auth"));
 
-builder.Services.AddDbContext<ApplicationContext>( options => options.UseSqlServer(connection));
+builder.Services.AddDbContext<ApplicationContext>( options =>
+{
+    options.UseSqlServer(connection)
+           .UseLazyLoadingProxies();
+});
 
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
@@ -47,7 +51,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthentication();
 
 builder.Services.AddControllers()
-                .AddNewtonsoftJson();
+                .AddNewtonsoftJson( options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

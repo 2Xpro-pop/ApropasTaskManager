@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
-using ApropasTaskManager.Server.Services;
+using ApropasTaskManager.Server.ViewModels;
 using ApropasTaskManager.Shared;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -22,25 +21,35 @@ public class UserController : ControllerBase
         _userManager = userManager;
     }
     [HttpGet]
-    public Task<User> GetUser()
+    public async Task<UserViewModel> GetUser()
     {
-        return _userManager.FindByIdAsync(User.FindFirstValue("Id"));
+        return new UserViewModel(await _userManager.FindByIdAsync(User.FindFirstValue("Id")));
     }
 
     [HttpPatch("{id}")]
     [Authorize(Roles = nameof(UserRoles.Director))]
-    public async Task PatchUser(string id, [FromBody] JsonPatchDocument<User> patch)
+    public async Task<IActionResult> PatchUser(string id, [FromBody] JsonPatchDocument<UserViewModel> patch)
     {
         var user = await _userManager.FindByIdAsync(id);
 
-        if (patch.Operations.FirstOrDefault(op => op.path.Contains("password") || op.path.Contains("userName")) != null)
+        if (user == null)
         {
-        
+            return BadRequest("USER_DOESN'T_EXIST");
         }
 
-        patch.ApplyTo(user);
+        var userVm = new UserViewModel(user);
 
-        await _userManager.UpdateAsync(user);
+        patch.ApplyTo(userVm);
+        userVm.ApplyToUser(user);
+
+        var result  = await _userManager.UpdateAsync(user);
+
+        if (!result.Succeeded)
+        {
+            return StatusCode(500, result.Errors);
+        }
+
+        return Ok();
     }
 
     /// <summary>
@@ -49,8 +58,29 @@ public class UserController : ControllerBase
     /// <param name="patch"></param>
     /// <returns></returns>
     [HttpPatch]
-    public Task PatchUser([FromBody] JsonPatchDocument<User> patch)
+    public Task PatchUser([FromBody] JsonPatchDocument<UserViewModel> patch)
     {
         return PatchUser(User.FindFirstValue("Id"), patch);
+    }
+
+    [HttpDelete("{id}")]
+    [Authorize(Roles = nameof(UserRoles.Director))]
+    public async Task<IActionResult> DeleteUser(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+
+        if (user == null)
+        {
+            return BadRequest("USER_DOESN'T_EXIST");
+        }
+
+        var result = await _userManager.DeleteAsync(user);
+
+        if (result.Succeeded)
+        {
+            return StatusCode(500, result.Errors);
+        }
+
+        return Ok();
     }
 }

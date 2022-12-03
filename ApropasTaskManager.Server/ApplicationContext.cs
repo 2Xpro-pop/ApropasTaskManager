@@ -17,4 +17,6 @@ public class ApplicationContext: IdentityDbContext<User>
     {
         base.OnModelCreating(builder);
     }
+
+
 }

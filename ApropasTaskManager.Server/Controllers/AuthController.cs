@@ -67,7 +67,7 @@ public class AuthController : ControllerBase
 
         if (!result.Succeeded)
         {
-            return StatusCode(500);
+            return StatusCode(500, result.Errors);
         }
 
         result = await _userManager.AddToRoleAsync(user, Enum.GetName(user.Role));
@@ -75,7 +75,7 @@ public class AuthController : ControllerBase
         if (!result.Succeeded)
         {
             await _userManager.DeleteAsync(user);
-            return StatusCode(500);
+            return StatusCode(500, result.Errors);
         }
 
         return Ok(password);
