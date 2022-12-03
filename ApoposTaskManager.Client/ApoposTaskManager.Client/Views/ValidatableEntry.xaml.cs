@@ -38,6 +38,12 @@ namespace ApoposTaskManager.Client.Views
             typeof(ValidatableEntry)
         );
 
+        public static readonly BindableProperty IsPasswordProperty = BindableProperty.Create(
+            nameof(IsPassword),
+            typeof(bool),
+            typeof(ValidatableEntry)
+        );
+
         public string ErrorMessage
         {
             get => (string)GetValue(ErrorMessageProperty);
@@ -56,6 +62,12 @@ namespace ApoposTaskManager.Client.Views
             set => SetValue(PlaceholderProperty, value);
         }
 
+        public bool IsPassword
+        {
+            get => (bool)GetValue(IsPasswordProperty);
+            set => SetValue(IsPasswordProperty, value);
+        }
+
         public ValidatableEntry ()
 		{
 			InitializeComponent();
@@ -71,6 +83,9 @@ namespace ApoposTaskManager.Client.Views
                     .DisposeWith(disposables);
 
                 this.Bind(ViewModel, vm => vm.Placeholder, v => v.Placeholder)
+                    .DisposeWith(disposables);
+
+                this.Bind(ViewModel, vm => vm.IsPassword, v => v.IsPassword)
                     .DisposeWith(disposables);
             });
             

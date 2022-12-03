@@ -57,9 +57,12 @@ namespace ApoposTaskManager.Client.ViewModels
                 var password = await userService.CreateUserAsync(new User
                 {
                     UserName = Login,
-                    Name = Name,
-                    Surname = Surname,
-                    MiddleName = Middlename,
+                    Profile = new UserProfile
+                    {
+                        Name = Name,
+                        Surname = Surname,
+                        MiddleName = Middlename,
+                    },
                     Role = UserRoles.Employee
                 });
 

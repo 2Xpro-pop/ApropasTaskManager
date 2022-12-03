@@ -15,7 +15,7 @@ namespace ApoposTaskManager.Client.Services
     public class UserService : IUserService
     {
         public IObservable<User> User => _user;
-        private Subject<User> _user = new Subject<User>();
+        private BehaviorSubject<User> _user = new BehaviorSubject<User>(null);
         public async Task GetCurrentUserInfoAsync()
         {
             var client = DependencyService.Get<IHttpClientFactory>().Create();

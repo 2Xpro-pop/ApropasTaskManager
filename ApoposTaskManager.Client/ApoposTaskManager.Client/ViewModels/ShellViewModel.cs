@@ -22,6 +22,10 @@ namespace ApoposTaskManager.Client.ViewModels
 
             userService.User.Subscribe(user =>
             {
+                if (user == null)
+                {
+                    return;
+                }
                 IsDirector = user.Role == UserRoles.Director;
             });
         }

@@ -17,7 +17,7 @@
         <Label x:Name="error" IsVisible="False" Style="{StaticResource Warning}"/>
 
         <local:ValidatableEntry x:Name="loginEntry" Placeholder="Login"/>
-        <local:ValidatableEntry x:Name="passwordEntry" Placeholder="Password"/>
+        <local:ValidatableEntry x:Name="passwordEntry" IsPassword="True" Placeholder="Password"/>
         
         <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
         

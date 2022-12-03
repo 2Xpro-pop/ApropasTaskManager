@@ -21,7 +21,11 @@ public static class DataSeeder
         {
             var user = new User
             {
-                UserName = "director"
+                UserName = "director",
+                Profile = new UserProfile
+                {
+                    Name = "MyLord"
+                }
             };
             var result = await userManager.CreateAsync(user, "Apr@12345");
             if (result.Succeeded)
@@ -34,6 +38,10 @@ public static class DataSeeder
             var user = new User
             {
                 UserName = "projectManager",
+                Profile = new UserProfile
+                {
+                    Name = "Stan"
+                }
             };
             var result = await userManager.CreateAsync(user, "Apr@12345");
             if (result.Succeeded)
@@ -46,6 +54,10 @@ public static class DataSeeder
             var user = new User
             {
                 UserName = "employee",
+                Profile = new UserProfile
+                {
+                    Name = "Steve"
+                }
             };
             var result = await userManager.CreateAsync(user, "Apr@12345");
             if (result.Succeeded)

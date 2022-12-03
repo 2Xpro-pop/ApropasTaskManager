@@ -22,8 +22,13 @@
         </Frame.Triggers>
         
         <Grid>
-            <local:BorderlessEntry Text="{Binding Text, Mode=TwoWay}" Placeholder="{Binding Placeholder}"/>
-            <Label x:Name="warning" Text="{Binding ErrorMessage, Mode=TwoWay}" Style="{StaticResource Warning}" TranslationY="-10"/>
+            <local:BorderlessEntry Text="{Binding Text, Mode=TwoWay}" 
+                                   Placeholder="{Binding Placeholder}"
+                                   IsPassword="{Binding IsPassword}"/>
+            <Label x:Name="warning" 
+                   Text="{Binding ErrorMessage, Mode=TwoWay}" 
+                   LineBreakMode="CharacterWrap"
+                   Style="{StaticResource Warning}" TranslationY="-10"/>
         </Grid>
         
     </Frame>

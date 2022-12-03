@@ -12,6 +12,7 @@ namespace ApoposTaskManager.Client.ViewModels
         [Reactive] public string Text { get; set; }
         [Reactive] public string ErrorMessage { get; set; }
         [Reactive] public string Placeholder { get; set; }
+        [Reactive] public bool IsPassword { get; set; }
 
         public ValidatableEntryViewModel()
         {
