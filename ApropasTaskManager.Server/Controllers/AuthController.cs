@@ -1,6 +1,9 @@
 ﻿using System.Security.Claims;
 using ApropasTaskManager.Server.Services;
 using ApropasTaskManager.Shared;
+using ApropasTaskManager.Shared.ViewModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -47,19 +50,19 @@ public class AuthController : ControllerBase
         
     }
 
-    [Authorize(AuthenticationSchemes = "Bearer", Roles = nameof(UserRoles.Director))]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = nameof(UserRoles.Director))]
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] User user)
     {
         var us = await _userManager.FindByNameAsync(user.UserName);
         if (us != null)
         {
-            return BadRequest("USER_EXIST");
+            return BadRequest(ServerDefaultResponses.UserExist);
         }
 
         if (user.Role == UserRoles.Director)
         {
-            return BadRequest("ONLY_ONE_DIRECTOR");
+            return BadRequest(ServerDefaultResponses.MustBeOneDirector);
         }
 
         var password = Guid.NewGuid().ToString("N").Remove(5).ToUpper();
@@ -80,5 +83,36 @@ public class AuthController : ControllerBase
 
         return Ok(password);
 
+    }
+
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = nameof(UserRoles.Director))]
+    [HttpPost("{id}/reset-password")]
+    public async Task<IActionResult> ChangePassword(string id, [FromBody] ResetPasswordViewModel resetPassword)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+
+        if (user == null)
+        {
+            return BadRequest(ServerDefaultResponses.UserNotFound);
+        }
+
+        if (!resetPassword.ValidationContext.IsValid)
+        {
+            return BadRequest();
+        }
+
+        if (!await _userManager.CheckPasswordAsync(user, resetPassword.NewPassword))
+        {
+            return Unauthorized();
+        }
+
+        var result = await _userManager.ChangePasswordAsync(user, resetPassword.OldPassword, resetPassword.NewPassword);
+
+        if (!result.Succeeded)
+        {
+            return StatusCode(500, result.Errors);
+        }
+
+        return Ok();
     }
 }

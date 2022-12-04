@@ -34,7 +34,7 @@ public class UserController : ControllerBase
 
         if (user == null)
         {
-            return BadRequest("USER_DOESN'T_EXIST");
+            return BadRequest(ServerDefaultResponses.UserNotFound);
         }
 
         var userVm = new UserViewModel(user);
@@ -71,7 +71,7 @@ public class UserController : ControllerBase
 
         if (user == null)
         {
-            return BadRequest("USER_DOESN'T_EXIST");
+            return BadRequest(ServerDefaultResponses.UserNotFound);
         }
 
         var result = await _userManager.DeleteAsync(user);
