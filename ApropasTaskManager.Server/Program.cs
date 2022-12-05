@@ -33,6 +33,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
    .AddDefaultTokenProviders();
 
 builder.Services.AddTransient<IJwtTokenProvider, JwtTokenProvider>();
+builder.Services.AddTransient<IProjectService, ProjectService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
