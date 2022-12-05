@@ -1,4 +1,4 @@
-﻿#define DIRECTOR
+﻿/*#define DIRECTOR*/
 
 using System;
 using System.Collections.Generic;
@@ -66,6 +66,10 @@ namespace ApoposTaskManager.Client.Views
 
 #if DIRECTOR
             ViewModel.Login = "director";
+            ViewModel.Password = "Apr@12345";
+            ViewModel.LoginCommand.Execute();
+#elif MANAGER
+            ViewModel.Login = "manager";
             ViewModel.Password = "Apr@12345";
             ViewModel.LoginCommand.Execute();
 #endif

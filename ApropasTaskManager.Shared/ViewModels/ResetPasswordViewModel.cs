@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
@@ -11,13 +12,14 @@ using ReactiveUI.Validation.Extensions;
 
 namespace ApropasTaskManager.Shared.ViewModels
 {
+    [DataContract]
     public class ResetPasswordViewModel: ReactiveObject, IValidatableViewModel
     {
-        public static readonly Regex Alphanumirec = new Regex("[a-zA-Z0-9]", RegexOptions.Compiled);
+        public static readonly Regex Alphanumirec = new Regex("^(?=.*[a-zA-Z])(?=.*[0-9])", RegexOptions.Compiled);
         
-        [Reactive] public string OldPassword { get; set; }
-        [Reactive] public string ConfirmPassword { get; set; }
-        [Reactive] public string NewPassword { get; set; }
+        [Reactive, DataMember] public string OldPassword { get; set; }
+        [Reactive, DataMember] public string ConfirmPassword { get; set; }
+        [Reactive, DataMember] public string NewPassword { get; set; }
 
         [JsonIgnore]
         public ValidationContext ValidationContext { get; } = new ValidationContext();
@@ -26,13 +28,13 @@ namespace ApropasTaskManager.Shared.ViewModels
         {
             this.ValidationRule(
                 vm => vm.NewPassword,
-                newPassword => newPassword.Length <= 8,
+                newPassword => !string.IsNullOrEmpty(newPassword) && newPassword.Length >= 8,
                 "Password the must have at least 8 characters"
             );
 
             this.ValidationRule(
                 vm => vm.NewPassword,
-                newPassword => Alphanumirec.IsMatch(newPassword),
+                newPassword => !string.IsNullOrEmpty(newPassword) && Alphanumirec.IsMatch(newPassword),
                 "Password the must have contains number and character"
             );
 

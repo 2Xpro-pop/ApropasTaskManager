@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Reactive;
 using System.Text;
+using System.Windows.Input;
 using ApoposTaskManager.Client.Services;
+using ApoposTaskManager.Client.Views;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Xamarin.Forms;
@@ -15,6 +18,8 @@ namespace ApoposTaskManager.Client.ViewModels
         [Reactive] public string Suranme { get; private set; }
         [Reactive] public string Midllename { get; private set; }
 
+        public ReactiveCommand<Unit, Unit> GotToChangePasswordCommand { get; }
+
         public UserProfileViewModel()
         {
             var userService = DependencyService.Get<IUserService>();
@@ -26,6 +31,8 @@ namespace ApoposTaskManager.Client.ViewModels
                 Suranme = user.Profile.Surname;
                 Midllename = user.Profile.MiddleName;
             });
+
+            GotToChangePasswordCommand = ReactiveCommand.CreateFromTask(() => Shell.Current.GoToAsync(nameof(ChangePasswordPage)));
         }
     }
 }

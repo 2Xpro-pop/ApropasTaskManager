@@ -5,10 +5,15 @@
              xmlns:vm="clr-namespace:ApoposTaskManager.Client.ViewModels"
              x:Class="ApoposTaskManager.Client.Views.UserProfilePage"
              x:DataType="vm:UserProfileViewModel"
-             x:TypeArguments="vm:UserProfileViewModel">
+             x:TypeArguments="vm:UserProfileViewModel"
+             Title="{Binding Login}">
     <ContentPage.Content>
         <StackLayout Padding="25">
-            <Label Text="{Binding RxText}"/>
+            <Label Text="{Binding Name, StringFormat='Name:{0}'}"/>
+            <Label Text="{Binding Suranme, StringFormat='Suranme:{0}'}"/>
+            <Label Text="{Binding Midllename, StringFormat='Midllename:{0}'}"/>
+
+            <Button Text="Change password" Command="{Binding GotToChangePasswordCommand}" />
         </StackLayout>
     </ContentPage.Content>
 </rxui:ReactiveContentPage>

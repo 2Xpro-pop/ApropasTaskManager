@@ -96,7 +96,7 @@ public class AuthController : ControllerBase
             return BadRequest(ServerDefaultResponses.UserNotFound);
         }
 
-        if (!resetPassword.ValidationContext.IsValid)
+        if (!resetPassword.ValidationContext.GetIsValid())
         {
             return BadRequest();
         }
@@ -114,5 +114,12 @@ public class AuthController : ControllerBase
         }
 
         return Ok();
+    }
+
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [HttpPost("reset-password")]
+    public Task<IActionResult> ChangePassword([FromBody] ResetPasswordViewModel resetPassword)
+    {
+        return ChangePassword(User.FindFirstValue("Id"), resetPassword);
     }
 }
