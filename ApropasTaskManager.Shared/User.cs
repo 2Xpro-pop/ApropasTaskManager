@@ -10,5 +10,6 @@ namespace ApropasTaskManager.Shared
         public UserRoles Role { get; set; }
 
         public virtual UserProfile Profile { get; set; }
+        public virtual List<Mission> Missions { get; set; }
     }
 }
