@@ -9,4 +9,11 @@
         <Setter Property="FontSize" Value="Header"/>
         <Setter Property="FontAttributes" Value="Bold"/>
     </Style>
+    <Style x:Key="Large" TargetType="Label">
+        <Setter Property="FontSize" Value="Large"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+    <Style x:Key="Medium" TargetType="Label">
+        <Setter Property="FontSize" Value="Medium"/>
+    </Style>
 </ResourceDictionary>

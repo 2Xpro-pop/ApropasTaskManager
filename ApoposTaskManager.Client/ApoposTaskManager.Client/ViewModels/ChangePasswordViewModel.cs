@@ -22,16 +22,15 @@ namespace ApoposTaskManager.Client.ViewModels
         public ReactiveCommand<Unit, bool> ChangePasswordCommand { get; }
         public ChangePasswordViewModel():base()
         {
-            ChangePasswordCommand = ReactiveCommand.CreateFromTask(async () =>
+            ChangePasswordCommand = ReactiveCommand.CreateFromTask(
+                () => DependencyService.Get<IAuthService>().ChangePassword(this), 
+                ValidationContext.Valid
+            );
+
+            ChangePasswordCommand.Subscribe(result =>
             {
-                var result = await DependencyService.Get<IAuthService>().ChangePassword(this);
-
-
-                Result = result ? "Success!" : "Error, maybe incorrect password";
-
-                return result;
-
-            }, ValidationContext.Valid);
+                Result = result ? "Success!" : "Error, maybe incorrect password"; 
+            });
 
             ChangePasswordCommand.ThrownExceptions.Subscribe(exc =>
             {

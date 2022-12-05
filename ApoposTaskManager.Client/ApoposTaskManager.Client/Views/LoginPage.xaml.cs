@@ -1,4 +1,4 @@
-﻿/*#define DIRECTOR*/
+﻿#define DIRECTOR
 
 using System;
 using System.Collections.Generic;

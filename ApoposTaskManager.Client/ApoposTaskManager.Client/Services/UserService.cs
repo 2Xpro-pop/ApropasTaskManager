@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ApropasTaskManager.Shared;
 using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.JsonPatch;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -45,6 +46,24 @@ namespace ApoposTaskManager.Client.Services
             var password = await response.Content.ReadAsStringAsync();
 
             return password;
+        }
+
+        public async Task<bool> UpdateUserAsync(JsonPatchDocument<User> jsonPatch)
+        {
+            var client = DependencyService.Get<IHttpClientFactory>().Create();
+
+            var response = await client.PatchAsJsonAsync("api/user/", jsonPatch);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var str = await response.Content.ReadAsStringAsync();
+                throw new InvalidOperationException("Bad request maybe");
+            }
+
+            jsonPatch.ApplyTo(_user.Value);
+            _user.OnNext(_user.Value);
+
+            return true;
         }
     }
 }

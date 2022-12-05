@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using ApropasTaskManager.Shared;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace ApoposTaskManager.Client.Services
 {
@@ -28,5 +29,7 @@ namespace ApoposTaskManager.Client.Services
         /// <param name="user"></param>
         /// <returns>Returned password</returns>
         Task<string> CreateUserAsync(User user);
+
+        Task<bool> UpdateUserAsync(JsonPatchDocument<User> json);
     }
 }

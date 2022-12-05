@@ -2,6 +2,7 @@
 <rxui:ReactiveContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:rxui="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:ApoposTaskManager.Client.ViewModels"
              x:Class="ApoposTaskManager.Client.Views.UserProfilePage"
              x:DataType="vm:UserProfileViewModel"
@@ -9,9 +10,18 @@
              Title="{Binding Login}">
     <ContentPage.Content>
         <StackLayout Padding="25">
-            <Label Text="{Binding Name, StringFormat='Name:{0}'}"/>
-            <Label Text="{Binding Suranme, StringFormat='Suranme:{0}'}"/>
-            <Label Text="{Binding Midllename, StringFormat='Midllename:{0}'}"/>
+            <StackLayout Orientation="Horizontal">
+                <xct:AvatarView ColorTheme="{x:Static xct:ColorTheme.Jungle}"
+                                Text="X"
+                                Size="80"/>
+                <StackLayout>
+                    <Label Text="{Binding Name}" Style="{x:StaticResource Large}"/>
+                    <Label Text="{Binding Role}" Style="{x:StaticResource Medium}"/>
+                </StackLayout>
+                
+            </StackLayout>
+
+            <Button Text="Change profile" Command="{Binding GotToChangeProfileCommand}" />
 
             <Button Text="Change password" Command="{Binding GotToChangePasswordCommand}" />
         </StackLayout>
