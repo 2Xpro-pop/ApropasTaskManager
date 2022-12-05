@@ -19,5 +19,8 @@ namespace ApropasTaskManager.Shared
         public TaskStatus Status { get; set; }
         
         public virtual List<User> Users { get; set; }
+
+        public int ProjectId { get; set; }
+        public virtual Project Project { get; set; }
     }
 }

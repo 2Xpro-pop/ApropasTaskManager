@@ -11,5 +11,6 @@ namespace ApropasTaskManager.Shared
 
         public virtual UserProfile Profile { get; set; }
         public virtual List<Mission> Missions { get; set; }
+        public virtual List<Project> Projects { get; set; }
     }
 }
