@@ -30,6 +30,12 @@ public class UserController : ControllerBase
         return new UserViewModel(await _userManager.FindByIdAsync(User.FindFirstValue("Id")));
     }
 
+    [HttpGet("{id}")]
+    public async Task<UserViewModel> GetUser(string id)
+    {
+        return new UserViewModel(await _userManager.FindByIdAsync(id));
+    }
+
     [HttpPatch("{id}")]
     [Authorize(Roles = nameof(UserRoles.Director))]
     public async Task<IActionResult> PatchUser(string id, [FromBody] JsonPatchDocument<UserViewModel> patch)

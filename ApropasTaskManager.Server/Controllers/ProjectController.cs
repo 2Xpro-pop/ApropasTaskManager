@@ -81,6 +81,36 @@ public class ProjectController : ControllerBase
         return BadRequest(result.ErrorName);
     }
 
+    [HttpPut("select-manager/{id}/{userId}")]
+    [Authorize(Roles = nameof(UserRoles.Director) + "," + nameof(UserRoles.ProjectManager))]
+    public async Task<IActionResult> PutManager(int id, string userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+
+        if (user == null)
+        {
+            return BadRequest(ServerDefaultResponses.UserNotFound);
+        }
+
+        if (user.Role != UserRoles.ProjectManager)
+        {
+            return BadRequest(ServerDefaultResponses.NotAuthorized);
+        }
+
+        var project = await _projectService.FindByIdAsync(id);
+
+        if (project == null)
+        {
+            return BadRequest(ServerDefaultResponses.ProjectNotFound);
+        }
+
+        project.ProjectManagerId = user.Id;
+
+        await _projectService.UpdateProjectAsync(project);
+
+        return Ok(1);
+    }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetProject(int id)
     {
