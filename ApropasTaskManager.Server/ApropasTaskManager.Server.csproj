@@ -24,4 +24,8 @@
     <ProjectReference Include="..\ApropasTaskManager.Shared\ApropasTaskManager.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
 </Project>

@@ -5,6 +5,7 @@ using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 using ApropasTaskManager.Shared;
+using ApropasTaskManager.Shared.ViewModels;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.JsonPatch;
 using Newtonsoft.Json;
@@ -15,8 +16,8 @@ namespace ApoposTaskManager.Client.Services
 {
     public class UserService : IUserService
     {
-        public IObservable<User> User => _user;
-        private BehaviorSubject<User> _user = new BehaviorSubject<User>(null);
+        public IObservable<UserViewModel> User => _user;
+        private BehaviorSubject<UserViewModel> _user = new BehaviorSubject<UserViewModel>(null);
         public async Task GetCurrentUserInfoAsync()
         {
             var client = DependencyService.Get<IHttpClientFactory>().Create();
@@ -25,10 +26,10 @@ namespace ApoposTaskManager.Client.Services
 
             var json = await response.Content.ReadAsStringAsync();
 
-            _user.OnNext(JsonConvert.DeserializeObject<User>(json));
+            _user.OnNext(JsonConvert.DeserializeObject<UserViewModel>(json));
         }
 
-        public async Task<string> CreateUserAsync(User user)
+        public async Task<string> CreateUserAsync(UserViewModel user)
         {
             var client = DependencyService.Get<IHttpClientFactory>().Create();
 
@@ -48,7 +49,7 @@ namespace ApoposTaskManager.Client.Services
             return password;
         }
 
-        public async Task<bool> UpdateUserAsync(JsonPatchDocument<User> jsonPatch)
+        public async Task<bool> UpdateUserAsync(JsonPatchDocument<UserViewModel> jsonPatch)
         {
             var client = DependencyService.Get<IHttpClientFactory>().Create();
 
@@ -64,6 +65,29 @@ namespace ApoposTaskManager.Client.Services
             _user.OnNext(_user.Value);
 
             return true;
+        }
+
+        public async Task<IEnumerable<UserViewModel>> GetUsersPage(int page, int pageSize)
+        {
+            var client = DependencyService.Get<IHttpClientFactory>().Create();
+
+            var response = await client.GetJsonAsync<List<UserViewModel>>($"api/user/{page}/{pageSize}");
+
+            return response;
+        }
+
+        public async Task<IEnumerable<UserViewModel>> GetUsersByName(string name)
+        {
+            var client = DependencyService.Get<IHttpClientFactory>().Create();
+
+            var queryBuilder = new QueryBuilder
+                    {
+                        { "name", name },
+                    };
+
+            var response = await client.GetJsonAsync<List<UserViewModel>>($"api/user/find-by-name" +queryBuilder.ToString());
+
+            return response;
         }
     }
 }

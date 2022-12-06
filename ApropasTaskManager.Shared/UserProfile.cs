@@ -11,7 +11,7 @@ namespace ApropasTaskManager.Shared
     {
         [Key]
         public string UserId { get; set; }
-        public virtual User User { get; set; }
+        [JsonIgnore] public virtual User User { get; set; }
 
 
         public string Name { get; set; } 

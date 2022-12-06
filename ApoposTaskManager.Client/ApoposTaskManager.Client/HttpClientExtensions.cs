@@ -38,11 +38,20 @@ namespace ApoposTaskManager.Client
 
         }
 
+        public static async Task<HttpResponseMessage> PutAsJsonAsync<T>(this HttpClient httpClient, string url, T value)
+        {
+            var json = JsonConvert.SerializeObject(value);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            return await httpClient.PutAsync(url, content);
+        }
+
         public static async Task<T> GetJsonAsync<T>(this HttpClient httpClient, string url)
         {
             var response = await httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<T>(content);
         }
+        
     }
 }

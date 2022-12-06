@@ -4,6 +4,7 @@ using System.Reactive;
 using System.Text;
 using ApoposTaskManager.Client.Services;
 using ApropasTaskManager.Shared;
+using ApropasTaskManager.Shared.ViewModels;
 using Microsoft.AspNetCore.JsonPatch;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -33,7 +34,7 @@ namespace ApoposTaskManager.Client.ViewModels
 
             ChangeProfileCommand = ReactiveCommand.CreateFromTask(() =>
             {
-                var patch = new JsonPatchDocument<User>();
+                var patch = new JsonPatchDocument<UserViewModel>();
 
                 patch.Replace(user => user.Profile.Name, Name);
                 patch.Replace(user => user.Profile.Surname, Surname);

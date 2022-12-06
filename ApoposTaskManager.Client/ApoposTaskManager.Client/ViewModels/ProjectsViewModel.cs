@@ -27,7 +27,7 @@ namespace ApoposTaskManager.Client.ViewModels
         public ObservableCollection<ProjectViewModel> Projects { get; } 
         public ReactiveCommand<Unit, Unit> LoadingProjects { get; }
         public ReactiveCommand<Unit, Unit> AddProject { get; }
-        
+        public ReactiveCommand<ProjectViewModel, Unit> OpenProject { get; }
         public ProjectsViewModel()
         {
             Projects = new ObservableCollection<ProjectViewModel>();
@@ -57,6 +57,16 @@ namespace ApoposTaskManager.Client.ViewModels
                 () => Shell.Current.GoToAsync(nameof(NewProjectPage)),
                 this.WhenAnyValue(vm => vm.IsBusy).Select(b => !b))
             ;
+
+            OpenProject = ReactiveCommand.CreateFromTask(async (ProjectViewModel project) =>
+            {
+                var projectPage = new ProjectInfoPage
+                {
+                    ViewModel = new ProjectInfoViewModel(project)
+                };
+
+                await Shell.Current.Navigation.PushAsync(projectPage);
+            });
 
             this.WhenAnyValue(vm => vm.ErrorMessage).Subscribe(msg=> IsErrorVisible = !string.IsNullOrEmpty(msg));
 

@@ -1,11 +1,13 @@
 ﻿using System.Security.Claims;
-using ApropasTaskManager.Server.ViewModels;
 using ApropasTaskManager.Shared;
+using ApropasTaskManager.Shared.ViewModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApropasTaskManager.Server.Controllers;
 
@@ -15,10 +17,12 @@ namespace ApropasTaskManager.Server.Controllers;
 public class UserController : ControllerBase
 {
     private readonly UserManager<User> _userManager;
+    private readonly ApplicationContext _db;
 
-    public UserController(UserManager<User> userManager)
+    public UserController(UserManager<User> userManager, ApplicationContext db)
     {
         _userManager = userManager;
+        _db = db;
     }
     [HttpGet]
     public async Task<UserViewModel> GetUser()
@@ -82,5 +86,33 @@ public class UserController : ControllerBase
         }
 
         return Ok();
+    }
+
+    [HttpGet("{page}/{pageSize}")]
+    [Authorize(Roles = nameof(UserRoles.Director) + "," + nameof(UserRoles.ProjectManager))]
+    public async Task<IActionResult> GetUsers(int page, int pageSize)
+    {
+        var user = await _db.Users
+                            .Include(u => u.Profile)
+                            .Include(u => u.Projects)
+                            .OrderBy(u => u.Profile.Name)
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .Select(u => new UserViewModel(u))
+                            .ToListAsync();
+        return Ok(user);
+    }
+
+    [HttpGet("find-by-name")]
+    [Authorize(Roles = nameof(UserRoles.Director) + "," + nameof(UserRoles.ProjectManager))]
+    public async Task<IActionResult> GetUsersByName(string name)
+    {
+        var user = await _db.Users
+                            .Include(u => u.Profile)
+                            .Where(u => u.Profile.Name.Contains(name))
+                            .OrderBy(u => u.Profile.Name)
+                            .Select(u => new UserViewModel(u))
+                            .ToListAsync();
+        return Ok(user);
     }
 }

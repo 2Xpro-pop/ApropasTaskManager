@@ -75,10 +75,11 @@ public class AuthController : ControllerBase
 
         if (!result.Succeeded)
         {
+            await _userManager.DeleteAsync(user);
             return StatusCode(500, result.Errors);
         }
 
-        result = await _userManager.AddToRoleAsync(user, Enum.GetName(user.Role));
+        result = await _userManager.AddToRoleAsync(await _userManager.FindByNameAsync(user.UserName), Enum.GetName(user.Role));
 
         if (!result.Succeeded)
         {

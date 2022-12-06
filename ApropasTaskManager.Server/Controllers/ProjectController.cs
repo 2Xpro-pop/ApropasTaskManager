@@ -16,10 +16,12 @@ namespace ApropasTaskManager.Server.Controllers;
 public class ProjectController : ControllerBase
 {
     private readonly IProjectService _projectService;
+    private readonly UserManager<User> _userManager;
 
-    public ProjectController(IProjectService projectService)
+    public ProjectController(IProjectService projectService, UserManager<User> userManager)
     {
         _projectService = projectService;
+        _userManager = userManager;
     }
 
     [HttpPost]
@@ -58,12 +60,25 @@ public class ProjectController : ControllerBase
     [Authorize(Roles = nameof(UserRoles.Director) + "," + nameof(UserRoles.ProjectManager))]
     public async Task<IActionResult> PutUser(int id, string userId)
     {
-        if (await _projectService.PutUser(id, userId))
+        var user = await _userManager.FindByIdAsync(userId);
+
+        if (user == null)
         {
-            return Ok();
+            return BadRequest(ServerDefaultResponses.UserNotFound);
         }
 
-        return BadRequest();
+        if (user.Role == UserRoles.ProjectManager)
+        {
+
+        }
+
+        var result = await _projectService.PutUser(id, userId);
+        if (result)
+        {
+            return Ok(1);
+        }
+
+        return BadRequest(result.ErrorName);
     }
 
     [HttpGet("{id}")]

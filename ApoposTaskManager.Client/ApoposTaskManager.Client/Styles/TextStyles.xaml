@@ -6,7 +6,7 @@
         <Setter Property="Margin" Value="8,0,0,10"/>
     </Style>
     <Style x:Key="Header" TargetType="Label">
-        <Setter Property="FontSize" Value="Header"/>
+        <Setter Property="FontSize" Value="54"/>
         <Setter Property="FontAttributes" Value="Bold"/>
     </Style>
     <Style x:Key="Large" TargetType="Label">

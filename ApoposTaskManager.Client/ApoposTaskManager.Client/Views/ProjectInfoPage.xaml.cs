@@ -13,11 +13,9 @@ namespace ApoposTaskManager.Client.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ProjectInfoPage : ReactiveContentPage<ProjectInfoViewModel>
 	{
-		public ProjectInfoPage ()
+		public ProjectInfoPage()
 		{
-			InitializeComponent ();
-
-            ViewModel = new ProjectInfoViewModel();
+			InitializeComponent();
 		}
 	}
 }

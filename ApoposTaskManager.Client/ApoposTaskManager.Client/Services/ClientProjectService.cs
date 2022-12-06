@@ -24,5 +24,15 @@ namespace ApoposTaskManager.Client.Services
 
             return await response.Content.ReadAsStringAsync();
         }
+
+        public async Task<string> PutUser(int projectId, string userId)
+        {
+            var client = DependencyService.Get<IHttpClientFactory>().Create();
+
+            // NULL, это просто заглушка!
+            var response = await client.PutAsJsonAsync($"api/project/{projectId}/{userId}", 0);
+
+            return await response.Content.ReadAsStringAsync();
+        }
     }
 }

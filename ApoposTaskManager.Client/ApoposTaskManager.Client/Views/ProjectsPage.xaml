@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:rxui="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
              xmlns:vm="clr-namespace:ApoposTaskManager.Client.ViewModels"
-             xmlns:models="clr-namespace:ApropasTaskManager.Shared;assembly=ApropasTaskManager.Shared"
+             xmlns:svm="clr-namespace:ApropasTaskManager.Shared.ViewModels;assembly=ApropasTaskManager.Shared"
              x:Class="ApoposTaskManager.Client.Views.ProjectsPage"
+             x:DataType="vm:ProjectsViewModel"
              x:TypeArguments="vm:ProjectsViewModel">
     <StackLayout>
         <Label Text="{Binding ErrorMessage}"
@@ -17,12 +18,17 @@
                             SelectionMode="None">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame Padding="10">
+                        <Frame Padding="10" x:DataType="svm:ProjectViewModel">
                             <Frame BackgroundColor="AliceBlue">
                                 <StackLayout >
                                     <Label Text="{Binding Name}" Style="{StaticResource Large}"/>
                                     <Label Text="{Binding Description}" Style="{StaticResource Medium}"/>
                                 </StackLayout>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" 
+                                                          Command="{Binding OpenProject, Source={RelativeSource AncestorType={x:Type vm:ProjectsViewModel}}}" 
+                                                          CommandParameter="{Binding .}"/>
+                                </Frame.GestureRecognizers>
                             </Frame>
                         </Frame>
                     </DataTemplate>

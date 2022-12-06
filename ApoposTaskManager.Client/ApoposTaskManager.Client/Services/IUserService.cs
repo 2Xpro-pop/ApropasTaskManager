@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using ApropasTaskManager.Shared;
+using ApropasTaskManager.Shared.ViewModels;
 using Microsoft.AspNetCore.JsonPatch;
 
 namespace ApoposTaskManager.Client.Services
@@ -12,7 +13,7 @@ namespace ApoposTaskManager.Client.Services
         /// <summary>
         /// Current user
         /// </summary>
-        IObservable<User> User
+        IObservable<UserViewModel> User
         {
             get;
         }
@@ -28,8 +29,10 @@ namespace ApoposTaskManager.Client.Services
         /// </summary>
         /// <param name="user"></param>
         /// <returns>Returned password</returns>
-        Task<string> CreateUserAsync(User user);
+        Task<string> CreateUserAsync(UserViewModel user);
 
-        Task<bool> UpdateUserAsync(JsonPatchDocument<User> json);
+        Task<bool> UpdateUserAsync(JsonPatchDocument<UserViewModel> json);
+        Task<IEnumerable<UserViewModel>> GetUsersPage(int page, int pageSize);
+        Task<IEnumerable<UserViewModel>> GetUsersByName(string name);
     }
 }

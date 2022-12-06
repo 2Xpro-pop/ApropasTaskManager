@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows.Input;
 using ApoposTaskManager.Client.Services;
 using ApropasTaskManager.Shared;
+using ApropasTaskManager.Shared.ViewModels;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using ReactiveUI.Validation.Abstractions;
@@ -54,7 +55,7 @@ namespace ApoposTaskManager.Client.ViewModels
             {
                 var userService = DependencyService.Get<IUserService>();
 
-                var password = await userService.CreateUserAsync(new User
+                var password = await userService.CreateUserAsync(new UserViewModel
                 {
                     UserName = Login,
                     Profile = new UserProfile

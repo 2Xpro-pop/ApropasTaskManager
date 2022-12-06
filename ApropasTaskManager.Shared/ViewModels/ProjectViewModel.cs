@@ -11,10 +11,11 @@ namespace ApropasTaskManager.Shared.ViewModels
     [DataContract]
     public class ProjectViewModel : ReactiveObject
     {
+        [Reactive, DataMember] public int Id { get; set; }
         [Reactive, DataMember] public string Name { get; set; }
         [Reactive, DataMember] public string Description { get; set; }
-        [Reactive, DataMember] public IEnumerable<int> Missions { get; set; }
-        [Reactive, DataMember] public IEnumerable<string> Users { get; set; }
+        [Reactive, DataMember] public List<int> Missions { get; set; }
+        [Reactive, DataMember] public List<string> Users { get; set; }
 
         public ProjectViewModel()
         {
@@ -22,11 +23,13 @@ namespace ApropasTaskManager.Shared.ViewModels
 
         public ProjectViewModel(Project project)
         {
+            Id = project.Id;
+
             Name = project.Name;
             Description = project.Description;
 
-            Missions = project.Missions.Select(m => m.Id);
-            Users = project.Users.Select(p => p.Id);
+            Missions = new List<int>(project.Missions.Select(m => m.Id));
+            Users = new List<string>(project.Users.Select(p => p.Id));
         }
 
         /// <summary>

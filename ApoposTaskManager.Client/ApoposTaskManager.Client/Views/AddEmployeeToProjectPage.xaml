@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rxui:ReactiveContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:rxui="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
+             xmlns:vm="clr-namespace:ApoposTaskManager.Client.ViewModels"
+             xmlns:svm="clr-namespace:ApropasTaskManager.Shared.ViewModels;assembly=ApropasTaskManager.Shared"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="ApoposTaskManager.Client.Views.AddEmployeeToProjectPage"
+             x:DataType="vm:AddEmployeeToProjectViewModel"
+             x:TypeArguments="vm:AddEmployeeToProjectViewModel">
+    <RefreshView IsRefreshing="{Binding IsNeedRefresh, Mode=TwoWay}"
+                 Command="{Binding Refresh}">
+        <StackLayout Padding="25">
+
+            <SearchBar Text="{Binding SearchText, Mode=TwoWay}" SearchCommand="{Binding Search}"/>
+
+            <CollectionView RemainingItemsThreshold="{Binding ItemTreshold}"
+                            RemainingItemsThresholdReachedCommand="{Binding ItemTresholdReached}"
+                            ItemsSource="{Binding Users}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="svm:UserViewModel">
+                        <Frame Padding="10">
+                            <Frame BackgroundColor="AliceBlue">
+                                <StackLayout Orientation="Horizontal">
+                                    
+                                    <xct:AvatarView Size="64"/>
+                                    
+                                    <StackLayout>
+                                        <Label Text="{Binding Profile.Name}" Style="{StaticResource Large}"/>
+                                        <Label Text="{Binding Role, StringFormat='{0}'}" Style="{StaticResource Medium}"/>
+                                    </StackLayout>
+                                    
+                                </StackLayout>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" 
+                                                          Command="{Binding AddEmployeeToProject, Source={RelativeSource AncestorType={x:Type vm:AddEmployeeToProjectViewModel}}}"
+                                                          CommandParameter="{Binding .}"/>
+                                </Frame.GestureRecognizers>
+                            </Frame>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
+        </StackLayout>
+    </RefreshView>
+</rxui:ReactiveContentPage>
