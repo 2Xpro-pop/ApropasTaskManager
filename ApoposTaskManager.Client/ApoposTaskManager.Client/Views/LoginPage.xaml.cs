@@ -8,6 +8,7 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ApoposTaskManager.Client.ViewModels;
+using ApropasTaskManager.Shared;
 using DynamicData.Binding;
 using ReactiveUI;
 using ReactiveUI.Validation.Extensions;
@@ -59,7 +60,7 @@ namespace ApoposTaskManager.Client.Views
                 ViewModel.LoginCommand.ThrownExceptions.Subscribe(exc =>
                 {
                     error.IsVisible = true;
-                    error.Text = "Failed to establish a connection with the server";
+                    error.Text = ServerDefaultResponses.NetExceptions;
                 }).DisposeWith(disposables);
             });
 #if DEBUG

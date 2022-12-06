@@ -4,8 +4,9 @@ using ApropasTaskManager.Shared.ViewModels;
 
 namespace ApoposTaskManager.Client.Services
 {
-    public interface IProjectService
+    public interface IClientProjectService
     {
+        Task<string> CreateProject(ProjectViewModel projectViewModel);
         Task<IEnumerable<ProjectViewModel>> GetProjects();
     }
 }

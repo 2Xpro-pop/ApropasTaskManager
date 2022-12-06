@@ -4,6 +4,7 @@ using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
 using ApoposTaskManager.Client.Services;
+using ApropasTaskManager.Shared;
 using ApropasTaskManager.Shared.ViewModels;
 using Newtonsoft.Json;
 using ReactiveUI;
@@ -34,7 +35,7 @@ namespace ApoposTaskManager.Client.ViewModels
 
             ChangePasswordCommand.ThrownExceptions.Subscribe(exc =>
             {
-                Result = "Failed to establish a connection with the server"; 
+                Result = ServerDefaultResponses.NetExceptions; 
             });
         }
     }

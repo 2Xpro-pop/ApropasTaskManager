@@ -1,9 +1,11 @@
-﻿using ApropasTaskManager.Server.Services;
+﻿using System.Text.Json;
+using ApropasTaskManager.Server.Services;
 using ApropasTaskManager.Shared;
 using ApropasTaskManager.Shared.ViewModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApropasTaskManager.Server.Controllers;
@@ -20,18 +22,36 @@ public class ProjectController : ControllerBase
         _projectService = projectService;
     }
 
-    [HttpPost("{name}")]
+    [HttpPost]
     [Authorize(Roles = nameof(UserRoles.Director))]
-    public async Task<IActionResult> CreateProject(string name)
+    public async Task<IActionResult> CreateProject([FromBody] ProjectViewModel projectViewModel)
     {
-        var project = new Project()
-        {
-            Name = name
-        };
+        var project = new Project();
+        projectViewModel.ApplyTo(project);
 
         await _projectService.CreateProjectAsync(project);
 
         return Ok(project.Id);
+    }
+
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> PatchProject(int id, [FromBody] JsonPatchDocument<ProjectViewModel> patchDocument)
+    {
+        var project = await _projectService.FindByIdAsync(id);
+
+        if (project == null)
+        {
+            return BadRequest(ServerDefaultResponses.ProjectNotFound);
+        }
+
+        var projectVm = new ProjectViewModel(project);
+
+        patchDocument.ApplyTo(projectVm);
+        projectVm.ApplyTo(project);
+
+        await _projectService.UpdateProjectAsync(project);
+
+        return Ok();
     }
 
     [HttpPut("{id}/{userId}")]
@@ -56,13 +76,7 @@ public class ProjectController : ControllerBase
             return BadRequest(ServerDefaultResponses.ProjectNotFound);
         }
 
-        return Ok(new ProjectViewModel
-        {
-            Name = project.Name,
-            Description = project.Description,
-            Missions = project.Missions.Select(m => m.Id),
-            Users = project.Users.Select(u => u.Id)
-        });
+        return Ok(new ProjectViewModel(project));
     }
 
     [HttpGet]
@@ -70,12 +84,6 @@ public class ProjectController : ControllerBase
     {
         var projects = await _projectService.GetProjects();
 
-        return projects.Select(p => new ProjectViewModel
-        {
-            Name = p.Name,
-            Description = p.Description,
-            Missions = p.Missions.Select(m => m.Id),
-            Users = p.Users.Select(u => u.Id)
-        });
+        return projects.Select(p => new ProjectViewModel(p));
     }
 }

@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Reactive;
+using System.Reactive.Linq;
 using System.Text;
+using ApoposTaskManager.Client.Models;
 using ApoposTaskManager.Client.Services;
+using ApoposTaskManager.Client.Views;
 using ApropasTaskManager.Shared;
 using ApropasTaskManager.Shared.ViewModels;
 using DynamicData;
@@ -15,22 +19,48 @@ namespace ApoposTaskManager.Client.ViewModels
 {
     public class ProjectsViewModel: ReactiveObject
     {
+        [Reactive] public bool IsErrorVisible { get; set; }
+        [Reactive] public string ErrorMessage { get; set; }
+        [Reactive] public bool IsDirector { get; set; }
         [Reactive] public bool IsBusy { get; set; }
 
-        public ObservableCollection<ProjectViewModel> Projects { get; } = new ObservableCollection<ProjectViewModel>();
+        public ObservableCollection<ProjectViewModel> Projects { get; } 
         public ReactiveCommand<Unit, Unit> LoadingProjects { get; }
-
+        public ReactiveCommand<Unit, Unit> AddProject { get; }
+        
         public ProjectsViewModel()
         {
+            Projects = new ObservableCollection<ProjectViewModel>();
+
             LoadingProjects = ReactiveCommand.CreateFromTask(async () =>
             {
-                var projects = await DependencyService.Get<IProjectService>().GetProjects();
+                var projects = await DependencyService.Get<IClientProjectService>().GetProjects();
 
                 Projects.Clear();
-                Projects.Add(projects);
+
+                foreach (var project in projects)
+                {
+                    Projects.Add(project);
+                }
+
             });
 
             LoadingProjects.CanExecute.Subscribe(can => IsBusy = !can);
+
+            LoadingProjects.ThrownExceptions.Subscribe(exc =>
+            {
+                ErrorMessage = ServerDefaultResponses.NetExceptions;
+                IsBusy = false;
+            });
+
+            AddProject = ReactiveCommand.CreateFromTask(
+                () => Shell.Current.GoToAsync(nameof(NewProjectPage)),
+                this.WhenAnyValue(vm => vm.IsBusy).Select(b => !b))
+            ;
+
+            this.WhenAnyValue(vm => vm.ErrorMessage).Subscribe(msg=> IsErrorVisible = !string.IsNullOrEmpty(msg));
+
+            DependencyService.Get<IUserService>().User.Subscribe(user => IsDirector = user.Role == UserRoles.Director);
         }
     }
 }

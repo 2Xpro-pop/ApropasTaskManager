@@ -7,6 +7,7 @@ public class UserViewModel
     public string Id { get; set; }
     public string UserName { get; set; }
     public string Email { get; set; }
+    public UserRoles Role { get; set; }
     public UserProfile Profile { get; set; }
 
     public UserViewModel(User user)
@@ -15,6 +16,7 @@ public class UserViewModel
         UserName = user.UserName;
         Email = user.Email;
         Profile = user.Profile;
+        Role = user.Role;
     }
 
     public void ApplyToUser(User user)

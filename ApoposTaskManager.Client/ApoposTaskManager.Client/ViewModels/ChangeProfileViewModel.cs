@@ -49,7 +49,7 @@ namespace ApoposTaskManager.Client.ViewModels
 
             ChangeProfileCommand.ThrownExceptions.Subscribe(exc =>
             {
-                Result = "Failed to establish a connection with the server";
+                Result = ServerDefaultResponses.NetExceptions;
             });
         }
     }

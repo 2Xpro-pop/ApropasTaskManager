@@ -41,8 +41,8 @@ namespace ApoposTaskManager.Client
         public static async Task<T> GetJsonAsync<T>(this HttpClient httpClient, string url)
         {
             var response = await httpClient.GetAsync(url);
-
-            return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<T>(content);
         }
     }
 }

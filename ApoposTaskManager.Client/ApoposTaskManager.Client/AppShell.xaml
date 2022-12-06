@@ -38,6 +38,7 @@
     </ShellItem>
 
     <TabBar x:Name="bar" Route="main">
+        <ShellContent Title="Projects" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:ProjectsPage}" />
         <ShellContent Title="Profile" Icon="icon_feed.png" ContentTemplate="{DataTemplate local:UserProfilePage}" />
         <ShellContent Title="Admin" Icon="icon_feed.png" Route="AdminPage" IsVisible="{Binding IsDirector}" ContentTemplate="{DataTemplate local:AdminPage}" />
     </TabBar>

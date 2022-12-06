@@ -7,4 +7,5 @@ public interface IProjectService
     Task<Project?> FindByIdAsync(int id);
     Task<List<Project>> GetProjects();
     Task<RequestResult> PutUser(int projectId, string userId);
+    Task UpdateProjectAsync(Project project);
 }

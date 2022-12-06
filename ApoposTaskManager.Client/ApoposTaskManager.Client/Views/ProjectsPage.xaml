@@ -3,10 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:rxui="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
              xmlns:vm="clr-namespace:ApoposTaskManager.Client.ViewModels"
+             xmlns:models="clr-namespace:ApropasTaskManager.Shared;assembly=ApropasTaskManager.Shared"
              x:Class="ApoposTaskManager.Client.Views.ProjectsPage"
-             x:DataType="vm:ProjectsViewModel"
              x:TypeArguments="vm:ProjectsViewModel">
-    <RefreshView Command="{Binding Projects}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+    <StackLayout>
+        <Label Text="{Binding ErrorMessage}"
+               Style="{StaticResource Warning}"
+               IsVisible="{Binding IsErrorVisible}" />
+        <RefreshView Command="{Binding LoadingProjects}" 
+                     IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+
+            <CollectionView ItemsSource="{Binding Projects}"
+                            SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="10">
+                            <Frame BackgroundColor="AliceBlue">
+                                <StackLayout >
+                                    <Label Text="{Binding Name}" Style="{StaticResource Large}"/>
+                                    <Label Text="{Binding Description}" Style="{StaticResource Medium}"/>
+                                </StackLayout>
+                            </Frame>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </RefreshView>
         
-    </RefreshView>
+        <Button Text="Add project"  Command="{Binding AddProject}" />
+        
+    </StackLayout>
 </rxui:ReactiveContentPage>

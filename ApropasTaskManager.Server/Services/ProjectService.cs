@@ -19,7 +19,7 @@ public class ProjectService : IProjectService
     public async Task<Project> CreateProjectAsync(Project project)
     {
         await _db.Projects.AddAsync(project);
-
+        await _db.SaveChangesAsync();
         return project;
     }
 
@@ -49,6 +49,12 @@ public class ProjectService : IProjectService
         await _db.SaveChangesAsync();
 
         return RequestResult.Success();
+    }
+
+    public async Task UpdateProjectAsync(Project project)
+    {
+        _db.Projects.Update(project);
+        await _db.SaveChangesAsync();
     }
 
     public Task<List<Project>> GetProjects() => _db.Projects.ToListAsync();

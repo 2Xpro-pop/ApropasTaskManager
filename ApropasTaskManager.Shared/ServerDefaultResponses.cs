@@ -10,5 +10,6 @@ namespace ApropasTaskManager.Shared
         public const string UserNotFound = "USER_NOT_FOUND";
         public const string UserExist = "USER_EXIST";
         public const string MustBeOneDirector = "THERE_MUST_BE_ONLY_ONE_DIRECTOR";
+        public const string NetExceptions = "Failed to establish a connection with the server";
     }
 }

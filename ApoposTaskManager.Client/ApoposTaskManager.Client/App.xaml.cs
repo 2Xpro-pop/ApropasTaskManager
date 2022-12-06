@@ -26,7 +26,7 @@ namespace ApoposTaskManager.Client
 
             DependencyService.Register<MockDataStore>();
             DependencyService.Register<IAuthService, AuthService>();
-            DependencyService.Register<IProjectService, ProjectService>();
+            DependencyService.Register<IClientProjectService, ClientProjectService>();
             DependencyService.RegisterSingleton<IHttpClientFactory>(new HttpClientFactory());
             DependencyService.RegisterSingleton<IUserService>(new UserService());
 
