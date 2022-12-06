@@ -5,5 +5,6 @@ public interface IProjectService
 {
     Task<Project> CreateProjectAsync(Project project);
     Task<Project?> FindByIdAsync(int id);
+    Task<List<Project>> GetProjects();
     Task<RequestResult> PutUser(int projectId, string userId);
 }

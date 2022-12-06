@@ -66,7 +66,12 @@ public class AuthController : ControllerBase
         }
 
         var password = Guid.NewGuid().ToString("N").Remove(5).ToUpper();
-        var result = await _userManager.CreateAsync(user, password);
+        var result = await _userManager.CreateAsync(new User
+        {
+            UserName = user.UserName,
+            Role = user.Role,
+            Profile = user.Profile
+        }, password);
 
         if (!result.Succeeded)
         {

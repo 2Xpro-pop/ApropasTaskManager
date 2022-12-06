@@ -50,4 +50,6 @@ public class ProjectService : IProjectService
 
         return RequestResult.Success();
     }
+
+    public Task<List<Project>> GetProjects() => _db.Projects.ToListAsync();
 }

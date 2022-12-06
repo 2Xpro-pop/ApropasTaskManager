@@ -10,7 +10,7 @@ namespace ApropasTaskManager.Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(JwtBearerDefaults.AuthenticationScheme)]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class ProjectController : ControllerBase
 {
     private readonly IProjectService _projectService;
@@ -62,6 +62,20 @@ public class ProjectController : ControllerBase
             Description = project.Description,
             Missions = project.Missions.Select(m => m.Id),
             Users = project.Users.Select(u => u.Id)
+        });
+    }
+
+    [HttpGet]
+    public async Task<IEnumerable<ProjectViewModel>> GetProjects()
+    {
+        var projects = await _projectService.GetProjects();
+
+        return projects.Select(p => new ProjectViewModel
+        {
+            Name = p.Name,
+            Description = p.Description,
+            Missions = p.Missions.Select(m => m.Id),
+            Users = p.Users.Select(u => u.Id)
         });
     }
 }
