@@ -16,7 +16,7 @@ using Xamarin.Forms;
 
 namespace ApoposTaskManager.Client.ViewModels
 {
-    public class AddEmployeeToProjectViewModel: ReactiveObject
+    public class SelectManagerViewModel: ReactiveObject
     {
         public int Id { get; set; }
         [Reactive] public string SearchText { get; set; }
@@ -28,12 +28,11 @@ namespace ApoposTaskManager.Client.ViewModels
         public ReactiveCommand<Unit,Unit> Search { get; set; }
         public ReactiveCommand<Unit,Unit> ItemTresholdReached { get;  }
         public ReactiveCommand<Unit,Unit> Refresh { get;  }
-        public ReactiveCommand<UserViewModel,Unit> AddEmployeeToProject { get;  }
-        public List<string> AddedEmployyes { get; set;}
+        public ReactiveCommand<UserViewModel, UserViewModel> SelectManager { get;  }
+        public UserViewModel SelectedManager { get; set;}
 
-        public AddEmployeeToProjectViewModel()
+        public SelectManagerViewModel()
         {
-            AddedEmployyes = new List<string>();
             Users = new ObservableCollection<UserViewModel>();
 
             ItemTreshold = 1;
@@ -42,7 +41,7 @@ namespace ApoposTaskManager.Client.ViewModels
                 IsBusy = true;
 
                 PageIndex++;
-                var items = await DependencyService.Get<IUserService>().GetUsersPage(PageIndex, 10);
+                var items = await DependencyService.Get<IUserService>().GetManagersPage(PageIndex, 10);
 
                 if (items.Count() == 0)
                 {
@@ -52,7 +51,7 @@ namespace ApoposTaskManager.Client.ViewModels
 
                 foreach (var item in items)
                 {
-                    if (item.Projects.Contains(Id))
+                    if (item.Role != UserRoles.ProjectManager)
                     {
                         continue;
                     }
@@ -84,18 +83,22 @@ namespace ApoposTaskManager.Client.ViewModels
                 var items = await DependencyService.Get<IUserService>().GetUsersByName(SearchText);
 
                 Users.Clear();
-                Users.Add(items.Where(u => !u.Projects.Contains(Id)));
+                Users.Add(items.Where(u => u.Role == UserRoles.ProjectManager));
             });
 
-            AddEmployeeToProject = ReactiveCommand.CreateFromTask(async (UserViewModel user) =>
+            SelectManager = ReactiveCommand.CreateFromTask(async (UserViewModel user) =>
             {
-                var response = await DependencyService.Get<IClientProjectService>().PutUser(Id, user.Id);
+                
+                var response = await DependencyService.Get<IClientProjectService>().SelectManager(Id, user.Id);
 
                 if (int.TryParse(response, out var result))
                 {
-                    AddedEmployyes.Add(user.Id);
-                    Users.Remove(user);
+                    SelectedManager = user;
+                    await Shell.Current.Navigation.PopAsync(true);
+                    return SelectedManager;
                 }
+
+                return null;
             });
         }
     }

@@ -15,6 +15,12 @@
                 <local:ValidatableEntry x:Name="name" Placeholder="Name"/>
                 <local:ValidatableEntry x:Name="surname" Placeholder="Surname"/>
                 <local:ValidatableEntry x:Name="middlename" Placeholder="Middlename"/>
+                <Picker SelectedItem="{Binding Role, Mode=TwoWay}">
+                    <Picker.Items>
+                        <x:String>ProjectManager</x:String>
+                        <x:String>Employee</x:String>
+                    </Picker.Items>
+                </Picker>
                 <Button Command="{Binding AddPersonalCommand}" Text="Save" />
             </StackLayout>
             <StackLayout IsVisible="{Binding IsVisible, Source={x:Reference Form},Converter={StaticResource InvertedBoolConverter}}">

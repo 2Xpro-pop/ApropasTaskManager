@@ -129,6 +129,6 @@ public class ProjectController : ControllerBase
     {
         var projects = await _projectService.GetProjects();
 
-        return projects.Select(p => new ProjectViewModel(p));
+        return projects.OrderBy(p => p.Priority).Select(p => new ProjectViewModel(p));
     }
 }

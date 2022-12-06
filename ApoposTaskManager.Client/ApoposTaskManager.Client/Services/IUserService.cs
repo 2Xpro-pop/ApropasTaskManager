@@ -34,5 +34,6 @@ namespace ApoposTaskManager.Client.Services
         Task<bool> UpdateUserAsync(JsonPatchDocument<UserViewModel> json);
         Task<IEnumerable<UserViewModel>> GetUsersPage(int page, int pageSize);
         Task<IEnumerable<UserViewModel>> GetUsersByName(string name);
+        Task<IEnumerable<UserViewModel>> GetManagersPage(int page, int pageSize);
     }
 }

@@ -109,6 +109,22 @@ public class UserController : ControllerBase
         return Ok(user);
     }
 
+    [HttpGet("managers/{page}/{pageSize}")]
+    [Authorize(Roles = nameof(UserRoles.Director) + "," + nameof(UserRoles.ProjectManager))]
+    public async Task<IActionResult> GetManagers(int page, int pageSize)
+    {
+        var user = await _db.Users
+                            .Include(u => u.Profile)
+                            .Include(u => u.Projects)
+                            .OrderBy(u => u.Profile.Name)
+                            .Where(u => u.Role == UserRoles.ProjectManager)
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .Select(u => new UserViewModel(u))
+                            .ToListAsync();
+        return Ok(user);
+    }
+
     [HttpGet("find-by-name")]
     [Authorize(Roles = nameof(UserRoles.Director) + "," + nameof(UserRoles.ProjectManager))]
     public async Task<IActionResult> GetUsersByName(string name)

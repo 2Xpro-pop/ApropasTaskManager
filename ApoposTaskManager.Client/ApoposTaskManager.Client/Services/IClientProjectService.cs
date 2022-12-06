@@ -9,5 +9,6 @@ namespace ApoposTaskManager.Client.Services
         Task<string> CreateProject(ProjectViewModel projectViewModel);
         Task<IEnumerable<ProjectViewModel>> GetProjects();
         Task<string> PutUser(int projectId, string userId);
+        Task<string> SelectManager(int projectId, string userId);
     }
 }

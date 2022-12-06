@@ -22,6 +22,7 @@ public static class DataSeeder
             var user = new User
             {
                 UserName = "director",
+                Role = UserRoles.Director,
                 Profile = new UserProfile
                 {
                     Name = "MyLord"
@@ -30,7 +31,7 @@ public static class DataSeeder
             var result = await userManager.CreateAsync(user, "Apr@12345");
             if (result.Succeeded)
             {
-                await userManager.AddToRoleAsync(user, "Director");
+                await userManager.AddToRoleAsync(user, Enum.GetName(UserRoles.Director));
             }
         }
         if (await userManager.FindByNameAsync("projectManager") == null)
@@ -38,6 +39,7 @@ public static class DataSeeder
             var user = new User
             {
                 UserName = "projectManager",
+                Role = UserRoles.ProjectManager,
                 Profile = new UserProfile
                 {
                     Name = "Stan"
@@ -46,7 +48,7 @@ public static class DataSeeder
             var result = await userManager.CreateAsync(user, "Apr@12345");
             if (result.Succeeded)
             {
-                await userManager.AddToRoleAsync(user, "ProjectManager");
+                await userManager.AddToRoleAsync(user, Enum.GetName(UserRoles.ProjectManager));
             }
         }
         if (await userManager.FindByNameAsync("employee") == null)
@@ -54,6 +56,7 @@ public static class DataSeeder
             var user = new User
             {
                 UserName = "employee",
+                Role = UserRoles.Employee,
                 Profile = new UserProfile
                 {
                     Name = "Steve"
@@ -62,7 +65,7 @@ public static class DataSeeder
             var result = await userManager.CreateAsync(user, "Apr@12345");
             if (result.Succeeded)
             {
-                await userManager.AddToRoleAsync(user, "Employee");
+                await userManager.AddToRoleAsync(user, Enum.GetName(UserRoles.Employee));
             }
         }
     }

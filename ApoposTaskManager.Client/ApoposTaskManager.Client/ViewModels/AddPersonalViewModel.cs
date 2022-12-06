@@ -22,6 +22,7 @@ namespace ApoposTaskManager.Client.ViewModels
         [Reactive] public string Name { get; set; }
         [Reactive] public string Surname { get; set; }
         [Reactive] public string Middlename { get; set; }
+        [Reactive] public string Role { get; set; }
         [ObservableAsProperty] public string Password { get; }
         public ReactiveCommand<Unit, string> AddPersonalCommand { get; } 
         public ICommand CancelCommand { get; }
@@ -58,13 +59,13 @@ namespace ApoposTaskManager.Client.ViewModels
                 var password = await userService.CreateUserAsync(new UserViewModel
                 {
                     UserName = Login,
+                    Role = (UserRoles)Enum.Parse(typeof(UserRoles), Role),
                     Profile = new UserProfile
                     {
                         Name = Name,
                         Surname = Surname,
                         MiddleName = Middlename,
-                    },
-                    Role = UserRoles.Employee
+                    }
                 });
 
                 return password;

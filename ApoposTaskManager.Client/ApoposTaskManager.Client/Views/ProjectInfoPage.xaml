@@ -19,6 +19,23 @@
                 <xct:AvatarView Size="18" ColorTheme="{x:Static xct:ColorTheme.Desert}"/>
                 <Label Text="{Binding Users.Count, StringFormat='{0} employees are working on this project'}" VerticalTextAlignment="Center" FontSize="16"/>
             </StackLayout>
+            
+            <Frame BackgroundColor="AliceBlue">
+                <StackLayout Orientation="Horizontal">
+
+                    <xct:AvatarView Size="64"/>
+
+                    <StackLayout>
+                        <Label Text="{Binding Manager.Profile.Name}" Style="{StaticResource Large}"/>
+                        <Label Text="{Binding Manager.Id, StringFormat='{0}'}" Style="{StaticResource Medium}"/>
+                    </StackLayout>
+
+                </StackLayout>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1"
+                                          Command="{Binding SelectManager}"/>
+                </Frame.GestureRecognizers>
+            </Frame>
 
             <Button Text="Add an employee to the project" Command="{Binding AddUsers}" />
 

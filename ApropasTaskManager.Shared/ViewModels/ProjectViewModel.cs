@@ -14,6 +14,8 @@ namespace ApropasTaskManager.Shared.ViewModels
         [Reactive, DataMember] public int Id { get; set; }
         [Reactive, DataMember] public string Name { get; set; }
         [Reactive, DataMember] public string Description { get; set; }
+        [Reactive, DataMember] public int Priority { get; set; }
+        [Reactive, DataMember] public string ProjectManagerId { get; set; }
         [Reactive, DataMember] public List<int> Missions { get; set; }
         [Reactive, DataMember] public List<string> Users { get; set; }
 
@@ -27,6 +29,8 @@ namespace ApropasTaskManager.Shared.ViewModels
 
             Name = project.Name;
             Description = project.Description;
+            Priority = project.Priority;
+            ProjectManagerId = project.ProjectManagerId;
 
             Missions = new List<int>(project.Missions.Select(m => m.Id));
             Users = new List<string>(project.Users.Select(p => p.Id));
@@ -40,6 +44,8 @@ namespace ApropasTaskManager.Shared.ViewModels
         {
             project.Name = Name;
             project.Description = Description;
+            project.Priority = Priority;
+            project.ProjectManagerId = ProjectManagerId;
         }
     }
 }

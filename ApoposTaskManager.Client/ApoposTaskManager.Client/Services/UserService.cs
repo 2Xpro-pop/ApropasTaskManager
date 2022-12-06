@@ -76,6 +76,15 @@ namespace ApoposTaskManager.Client.Services
             return response;
         }
 
+        public async Task<IEnumerable<UserViewModel>> GetManagersPage(int page, int pageSize)
+        {
+            var client = DependencyService.Get<IHttpClientFactory>().Create();
+
+            var response = await client.GetJsonAsync<List<UserViewModel>>($"api/user/managers/{page}/{pageSize}");
+
+            return response;
+        }
+
         public async Task<IEnumerable<UserViewModel>> GetUsersByName(string name)
         {
             var client = DependencyService.Get<IHttpClientFactory>().Create();
