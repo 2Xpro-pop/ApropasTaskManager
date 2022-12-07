@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Reactive;
+using System.Reactive.Threading.Tasks;
 using System.Text;
+using System.Threading.Tasks;
+using ApoposTaskManager.Client.Services;
 using ApoposTaskManager.Client.Views;
 using ApropasTaskManager.Shared.ViewModels;
 using DynamicData;
@@ -23,7 +26,7 @@ namespace ApoposTaskManager.Client.ViewModels
             Name = viewModel.Name;
             Description = viewModel.Description;
             Priority = viewModel.Priority;
-            ProjectManagerId = ProjectManagerId;
+            ProjectManagerId = viewModel.ProjectManagerId;
             Users = viewModel.Users;
             Missions = viewModel.Missions;
 
@@ -48,10 +51,7 @@ namespace ApoposTaskManager.Client.ViewModels
                 page.ViewModel.SelectManager.Subscribe(u => Manager = u);
             });
 
-            if (string.IsNullOrEmpty(ProjectManagerId))
-            {
-                
-            }
+            this.WhenAnyValue(vm => vm.Manager).Subscribe(m => IsManagerSelected = m != null);
         }
     }
 }

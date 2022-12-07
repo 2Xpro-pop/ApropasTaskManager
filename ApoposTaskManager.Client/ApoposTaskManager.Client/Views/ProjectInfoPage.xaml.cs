@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ApoposTaskManager.Client.Services;
 using ApoposTaskManager.Client.ViewModels;
 using ReactiveUI.XamForms;
 using Xamarin.Forms;
@@ -17,5 +18,10 @@ namespace ApoposTaskManager.Client.Views
 		{
 			InitializeComponent();
 		}
-	}
+
+        protected async override void OnAppearing()
+        {
+            ViewModel.Manager = await DependencyService.Get<IUserService>().GetUserByIdAsync(ViewModel.ProjectManagerId);
+        }
+    }
 }

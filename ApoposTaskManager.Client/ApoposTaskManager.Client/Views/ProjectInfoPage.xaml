@@ -13,22 +13,27 @@
             <Label Text="{Binding Name}" Style="{StaticResource Header}"/>
             <Label Text="{Binding Description}" Style="{StaticResource Large}"/>
 
-            <StackLayout Orientation="Horizontal" Spacing="0">
+            <StackLayout Orientation="Horizontal" Spacing="0" Margin="0, 20">
                 <xct:AvatarView Size="18" />
                 <xct:AvatarView Size="18" ColorTheme="{x:Static xct:ColorTheme.Jungle}"/>
                 <xct:AvatarView Size="18" ColorTheme="{x:Static xct:ColorTheme.Desert}"/>
                 <Label Text="{Binding Users.Count, StringFormat='{0} employees are working on this project'}" VerticalTextAlignment="Center" FontSize="16"/>
             </StackLayout>
-            
+
+            <Label Text="Manager"/>
+
             <Frame BackgroundColor="AliceBlue">
                 <StackLayout Orientation="Horizontal">
 
-                    <xct:AvatarView Size="64"/>
+                    <xct:AvatarView Size="64" IsVisible="{Binding IsManagerSelected}"/>
 
-                    <StackLayout>
+                    <StackLayout Margin="18,0,0,0" IsVisible="{Binding IsManagerSelected}">
                         <Label Text="{Binding Manager.Profile.Name}" Style="{StaticResource Large}"/>
                         <Label Text="{Binding Manager.Id, StringFormat='{0}'}" Style="{StaticResource Medium}"/>
                     </StackLayout>
+
+                    <Label Text="Select manager" 
+                           IsVisible="{Binding IsManagerSelected, Converter={StaticResource InvertedBoolConverter}}"/>
 
                 </StackLayout>
                 <Frame.GestureRecognizers>
@@ -37,7 +42,7 @@
                 </Frame.GestureRecognizers>
             </Frame>
 
-            <Button Text="Add an employee to the project" Command="{Binding AddUsers}" />
+            <Button Text="Add an employee to the project" Command="{Binding AddUsers}" Margin="0, 20, 0, 0" />
 
             <Button Text="Show tasks" />
 

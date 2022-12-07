@@ -29,6 +29,17 @@ namespace ApoposTaskManager.Client.Services
             _user.OnNext(JsonConvert.DeserializeObject<UserViewModel>(json));
         }
 
+        public async Task<UserViewModel> GetUserByIdAsync(string id)
+        {
+            var client = DependencyService.Get<IHttpClientFactory>().Create();
+
+            var response = await client.GetAsync($"api/user/{id}");
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<UserViewModel>(json);
+        }
+
         public async Task<string> CreateUserAsync(UserViewModel user)
         {
             var client = DependencyService.Get<IHttpClientFactory>().Create();
@@ -67,7 +78,7 @@ namespace ApoposTaskManager.Client.Services
             return true;
         }
 
-        public async Task<IEnumerable<UserViewModel>> GetUsersPage(int page, int pageSize)
+        public async Task<IEnumerable<UserViewModel>> GetUsersPageAsyn(int page, int pageSize)
         {
             var client = DependencyService.Get<IHttpClientFactory>().Create();
 
@@ -76,7 +87,7 @@ namespace ApoposTaskManager.Client.Services
             return response;
         }
 
-        public async Task<IEnumerable<UserViewModel>> GetManagersPage(int page, int pageSize)
+        public async Task<IEnumerable<UserViewModel>> GetManagersPageAsync(int page, int pageSize)
         {
             var client = DependencyService.Get<IHttpClientFactory>().Create();
 
@@ -85,7 +96,7 @@ namespace ApoposTaskManager.Client.Services
             return response;
         }
 
-        public async Task<IEnumerable<UserViewModel>> GetUsersByName(string name)
+        public async Task<IEnumerable<UserViewModel>> GetUsersByNameAsync(string name)
         {
             var client = DependencyService.Get<IHttpClientFactory>().Create();
 

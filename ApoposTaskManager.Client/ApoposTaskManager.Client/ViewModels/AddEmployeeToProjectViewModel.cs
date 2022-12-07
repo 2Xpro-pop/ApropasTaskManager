@@ -42,7 +42,7 @@ namespace ApoposTaskManager.Client.ViewModels
                 IsBusy = true;
 
                 PageIndex++;
-                var items = await DependencyService.Get<IUserService>().GetUsersPage(PageIndex, 10);
+                var items = await DependencyService.Get<IUserService>().GetUsersPageAsyn(PageIndex, 10);
 
                 if (items.Count() == 0)
                 {
@@ -81,7 +81,7 @@ namespace ApoposTaskManager.Client.ViewModels
                 }
                 ItemTreshold = -1;
 
-                var items = await DependencyService.Get<IUserService>().GetUsersByName(SearchText);
+                var items = await DependencyService.Get<IUserService>().GetUsersByNameAsync(SearchText);
 
                 Users.Clear();
                 Users.Add(items.Where(u => !u.Projects.Contains(Id)));
