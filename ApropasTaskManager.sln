@@ -7,11 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApoposTaskManager.Client.An
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApoposTaskManager.Client.iOS", "ApoposTaskManager.Client\ApoposTaskManager.Client.iOS\ApoposTaskManager.Client.iOS.csproj", "{BBC815CA-D61F-4D93-AE09-14E25F99FE1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApoposTaskManager.Client", "ApoposTaskManager.Client\ApoposTaskManager.Client\ApoposTaskManager.Client.csproj", "{080F93CB-64D4-44EA-B57A-ED759CFF53CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApoposTaskManager.Client", "ApoposTaskManager.Client\ApoposTaskManager.Client\ApoposTaskManager.Client.csproj", "{080F93CB-64D4-44EA-B57A-ED759CFF53CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApropasTaskManager.Server", "ApropasTaskManager.Server\ApropasTaskManager.Server.csproj", "{27CAAE38-DDF2-451D-87AA-0E7EA6790FD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApropasTaskManager.Server", "ApropasTaskManager.Server\ApropasTaskManager.Server.csproj", "{27CAAE38-DDF2-451D-87AA-0E7EA6790FD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApropasTaskManager.Shared", "ApropasTaskManager.Shared\ApropasTaskManager.Shared.csproj", "{4F08A5A8-485F-47CE-BFCC-80AE8A7E5346}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApropasTaskManager.Shared", "ApropasTaskManager.Shared\ApropasTaskManager.Shared.csproj", "{4F08A5A8-485F-47CE-BFCC-80AE8A7E5346}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApropasTaskManager.DAL", "ApropasTaskManager.DAL\ApropasTaskManager.DAL.csproj", "{54B247DF-6205-45CD-A0A4-1BF8AAACFEAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +103,18 @@ Global
 		{4F08A5A8-485F-47CE-BFCC-80AE8A7E5346}.Release|iPhone.Build.0 = Release|Any CPU
 		{4F08A5A8-485F-47CE-BFCC-80AE8A7E5346}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{4F08A5A8-485F-47CE-BFCC-80AE8A7E5346}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{54B247DF-6205-45CD-A0A4-1BF8AAACFEAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54B247DF-6205-45CD-A0A4-1BF8AAACFEAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54B247DF-6205-45CD-A0A4-1BF8AAACFEAD}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{54B247DF-6205-45CD-A0A4-1BF8AAACFEAD}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{54B247DF-6205-45CD-A0A4-1BF8AAACFEAD}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{54B247DF-6205-45CD-A0A4-1BF8AAACFEAD}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{54B247DF-6205-45CD-A0A4-1BF8AAACFEAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54B247DF-6205-45CD-A0A4-1BF8AAACFEAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54B247DF-6205-45CD-A0A4-1BF8AAACFEAD}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{54B247DF-6205-45CD-A0A4-1BF8AAACFEAD}.Release|iPhone.Build.0 = Release|Any CPU
+		{54B247DF-6205-45CD-A0A4-1BF8AAACFEAD}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{54B247DF-6205-45CD-A0A4-1BF8AAACFEAD}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
