@@ -10,7 +10,7 @@ using ApropasTaskManager.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApropasTaskManager.DAL.EF.Implementations;
-internal class UserProfilesRepository : IUserProfilesRepository
+internal class UserProfilesRepository : IUserProfilesRepository, IRepositoryWithDbContext<UserProfile>
 {
     private readonly ApplicationContext _db;
 
@@ -19,13 +19,16 @@ internal class UserProfilesRepository : IUserProfilesRepository
         _db = db;
     }
 
+    public virtual DbContext Context => _db;
+    public virtual DbSet<UserProfile> Values => _db.Profiles;
+
     public Task<Result<Unit>> CreateAsync(UserProfile user)
     {
-        return this.CreateAsync(_db, _db.Profiles, user);
+        return this.CreateAsyncWithContext(user);
     }
     public Task<Result<Unit>> Delete(object id)
     {
-        return this.DeleteAsync(_db, _db.Profiles, id, ServerDefaultResponses.UserNotFound);
+        return this.DeleteAsyncWithContext(id, ServerDefaultResponses.UserNotFound);
     }
     public async Task<Result<IQueryable<UserProfile>>> FindAsync(Expression<Func<UserProfile, bool>> predicate)
     {
@@ -47,6 +50,6 @@ internal class UserProfilesRepository : IUserProfilesRepository
     }
     public Task<Result<Unit>> UpdateAsync(UserProfile userProfile)
     {
-        return this.UpdateAsync(_db, _db.Profiles, userProfile, userProfile.UserId);
+        return this.UpdateAsyncWithContext(userProfile, userProfile.UserId);
     }
 }
