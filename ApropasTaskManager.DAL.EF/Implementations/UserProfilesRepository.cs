@@ -15,7 +15,7 @@ internal class UserProfilesRepository : BaseRepositoryWithDbContext<UserProfile>
     public UserProfilesRepository(ApplicationContext db) : base(db)
     {
         Values = db.Profiles;
-        DeleteError = ServerDefaultResponses.UserNotFound;
+        NotFoundError = ServerDefaultResponses.UserNotFound;
         IdEqualsPredicate = id => u => u.UserId.Equals(id);
         IdGetter = u => u.UserId;
     }

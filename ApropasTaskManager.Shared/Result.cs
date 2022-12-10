@@ -23,6 +23,35 @@ namespace ApropasTaskManager.Shared
         public bool IsSuccess => Error == null;
         public object Error { get; }
 
+        public Result<U> ToError<U>(object error = null)
+        {
+            return Result<U>.CreateError(error ?? Error);
+        }
+
+        public Result<U> ResultOrErrorIfNull<U>(Func<T, U> creator, object nullError = null)
+        {
+            if (!IsSuccess)
+            {
+                return ToError<U>();
+            }
+            if (Value == null)
+            {
+                return ToError<U>(nullError);
+            }
+
+            return creator(Value);
+        }
+
+        public Result<U> ResultOrError<U>(Func<T, U> creator)
+        {
+            if (!IsSuccess)
+            {
+                return ToError<U>();
+            }
+
+            return creator(Value);
+        }
+
 
         public static implicit operator T(Result<T> result)
         {

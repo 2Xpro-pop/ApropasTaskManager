@@ -10,11 +10,16 @@ namespace ApropasTaskManager.BLL.Services
 {
     public interface IProjectService
     {
+        /// <summary>
+        /// Users and Missions will be ignore
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
         Task<Result<Unit>> CreateProjectAsync(ProjectDTO project);
         Task<Result<ProjectDTO>> FindByIdAsync(int id);
-        Task<Result<List<ProjectDTO>>> GetProjects();
+        Task<Result<IEnumerable<ProjectDTO>>> GetProjects();
         Task<Result<Unit>> PutUser(int projectId, string userId);
         Task<Result<Unit>> PutManager(int projectId, string userId);
-        Task UpdateProjectAsync(ProjectDTO project);
+        Task<Result<Unit>> UpdateProjectAsync(ProjectDTO project);
     }
 }

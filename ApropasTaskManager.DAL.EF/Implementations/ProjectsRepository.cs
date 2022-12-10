@@ -12,7 +12,7 @@ internal class ProjectsRepository : BaseRepositoryWithDbContext<Project>, IProje
     public ProjectsRepository(ApplicationContext db) : base(db)
     {
         Values = db.Projects;
-        DeleteError = ServerDefaultResponses.ProjectNotFound;
+        NotFoundError = ServerDefaultResponses.ProjectNotFound;
         IdEqualsPredicate = id => p => p.Id.Equals(id);
         IdGetter = p => p.Id;
     }

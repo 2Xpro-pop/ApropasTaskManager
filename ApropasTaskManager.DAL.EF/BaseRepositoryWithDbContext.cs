@@ -21,7 +21,7 @@ internal abstract class BaseRepositoryWithDbContext<T> : IRepositoryWithDbContex
 
     public virtual DbContext Context => _db;
     public virtual DbSet<T> Values { get; protected set; }
-    protected object DeleteError { get; set; }
+    protected object NotFoundError { get; set; }
     protected Func<object, Expression<Func<T, bool>>> IdEqualsPredicate { get; set; }
     protected Func<T, object> IdGetter { get; set; }
 
@@ -31,7 +31,7 @@ internal abstract class BaseRepositoryWithDbContext<T> : IRepositoryWithDbContex
     }
     public Task<Result<Unit>> Delete(object id)
     {
-        return this.DeleteAsyncWithContext(id, DeleteError);
+        return this.DeleteAsyncWithContext(id, NotFoundError);
     }
     public async Task<Result<IQueryable<T>>> FindAsync(Expression<Func<T, bool>> predicate)
     {
@@ -53,6 +53,6 @@ internal abstract class BaseRepositoryWithDbContext<T> : IRepositoryWithDbContex
     }
     public Task<Result<Unit>> UpdateAsync(T userProfile)
     {
-        return this.UpdateAsyncWithContext(userProfile, IdGetter(userProfile));
+        return this.UpdateAsyncWithContext(userProfile, IdGetter(userProfile), NotFoundError);
     }
 }

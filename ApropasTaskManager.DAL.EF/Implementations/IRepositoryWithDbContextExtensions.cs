@@ -11,13 +11,17 @@ using Microsoft.EntityFrameworkCore;
 namespace ApropasTaskManager.DAL.EF.Implementations;
 internal static class IRepositoryWithDbContextExtensions
 {
-    public static async Task<Result<Unit>> UpdateAsyncWithContext<T>(this IRepositoryWithDbContext<T> repository, T value, object id) where T: class
+    public static async Task<Result<Unit>> UpdateAsyncWithContext<T>(this IRepositoryWithDbContext<T> repository, T value, object id, object notFoundError) where T: class
     {
         var result = await repository.GetAsyncById(id);
 
         if (!result)
         {
-            return Result<Unit>.CreateError(result.Error);
+            return result.ToError<Unit>();
+        }
+        if (result.Value == null)
+        {
+            return result.ToError<Unit>(notFoundError);
         }
 
         repository.Values.Update(value);
