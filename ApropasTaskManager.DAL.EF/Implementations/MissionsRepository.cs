@@ -13,7 +13,7 @@ internal class MissionsRepository : BaseRepositoryWithDbContext<Mission>, IMissi
     {
         Values = db.Missions;
         DeleteError = ServerDefaultResponses.MissionNotFound;
-        IdEqualsPredicate = id => m => m.Equals(id);
+        IdEqualsPredicate = id => m => m.Id.Equals(id);
         IdGetter = m => m.Id;
     }
 }

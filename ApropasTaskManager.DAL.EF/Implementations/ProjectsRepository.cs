@@ -13,7 +13,7 @@ internal class ProjectsRepository : BaseRepositoryWithDbContext<Project>, IProje
     {
         Values = db.Projects;
         DeleteError = ServerDefaultResponses.ProjectNotFound;
-        IdEqualsPredicate = id => p => p.Equals(id);
+        IdEqualsPredicate = id => p => p.Id.Equals(id);
         IdGetter = p => p.Id;
     }
 }

@@ -16,7 +16,7 @@ internal class UserProfilesRepository : BaseRepositoryWithDbContext<UserProfile>
     {
         Values = db.Profiles;
         DeleteError = ServerDefaultResponses.UserNotFound;
-        IdEqualsPredicate = id => u => u.Equals(id);
+        IdEqualsPredicate = id => u => u.UserId.Equals(id);
         IdGetter = u => u.UserId;
     }
 
