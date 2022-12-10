@@ -19,59 +19,34 @@ internal class UserProfilesRepository : IUserProfilesRepository
         _db = db;
     }
 
-    public async Task<Result<Unit>> CreateAsync(UserProfile user)
+    public Task<Result<Unit>> CreateAsync(UserProfile user)
     {
-        await _db.AddAsync(user);
-        await _db.SaveChangesAsync();
-
-        return Unit.Default;
+        return this.CreateAsync(_db, _db.Profiles, user);
     }
-    public async Task<Result<Unit>> Delete(object id)
+    public Task<Result<Unit>> Delete(object id)
     {
-        var profile = (await GetAsyncById(id)).Value;
-
-        if (profile == null)
-        {
-            return Result<Unit>.CreateError(ServerDefaultResponses.UserNotFound);
-        }
-
-        _db.Profiles.Remove(profile);
-
-        await _db.SaveChangesAsync();
-        
-        return Unit.Default;
+        return this.DeleteAsync(_db, _db.Profiles, id, ServerDefaultResponses.UserNotFound);
     }
-
-
     public async Task<Result<IQueryable<UserProfile>>> FindAsync(Expression<Func<UserProfile, bool>> predicate)
     {
         return new(_db.Profiles.Where(predicate));
     }
-
     public async Task<Result<IQueryable<UserProfile>>> GetAllAsync() => new(_db.Profiles);
 
-    public async Task<Result<UserProfile?>> GetAsyncById(object id) => await _db.Profiles.FirstOrDefaultAsync(p => p.UserId.Equals(id));
-
+    public async Task<Result<UserProfile?>> GetAsyncById(object id)
+    {
+        return await _db.Profiles.FirstOrDefaultAsync(p => p.UserId.Equals(id));
+    }
     public async Task<Result<IQueryable<UserProfile>>> GetPageAsync(int pageIndex, int pageSize)
     {
-        return new(_db.Profiles
-                      .Skip(pageIndex * pageSize)
-                      .Take(pageSize));
+        return new(_db.Profiles.GetPage(pageIndex, pageSize));
     }
     public async Task<Result<IQueryable<UserProfile>>> GetPageWhere(int pageIndex, int pageSize, Expression<Func<UserProfile, bool>> predicate)
     {
-        return new((await GetPageAsync(pageIndex, pageSize)).Value
-                                                            .Where(predicate));
+        return new( _db.Profiles.GetPage(pageIndex, pageSize, predicate));
     }
-    public async Task<Result<Unit>> UpdateAsync(UserProfile userProfile)
+    public Task<Result<Unit>> UpdateAsync(UserProfile userProfile)
     {
-        var profile = await GetAsyncById(userProfile.UserId);
-
-        if (!profile)
-        {
-            return Result<Unit>.CreateError(profile.Error);
-        }
-
-        return Unit.Default;
+        return this.UpdateAsync(_db, _db.Profiles, userProfile, userProfile.UserId);
     }
 }
