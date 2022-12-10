@@ -22,7 +22,7 @@ internal abstract class BaseRepositoryWithDbContext<T> : IRepositoryWithDbContex
     public virtual DbContext Context => _db;
     public virtual DbSet<T> Values { get; protected set; }
     protected object DeleteError { get; set; }
-    protected Expression<Func<T, bool>> IdEqualsPredicate { get; set; }
+    protected Func<object, Expression<Func<T, bool>>> IdEqualsPredicate { get; set; }
     protected Func<T, object> IdGetter { get; set; }
 
     public Task<Result<Unit>> CreateAsync(T user)
@@ -41,7 +41,7 @@ internal abstract class BaseRepositoryWithDbContext<T> : IRepositoryWithDbContex
 
     public async Task<Result<T?>> GetAsyncById(object id)
     {
-        return await Values.FirstOrDefaultAsync(IdEqualsPredicate);
+        return await Values.FirstOrDefaultAsync(IdEqualsPredicate(id));
     }
     public async Task<Result<IQueryable<T>>> GetPageAsync(int pageIndex, int pageSize)
     {
