@@ -33,5 +33,10 @@ namespace ApropasTaskManager.Shared
         {
             return result.IsSuccess;
         }
+
+        public static implicit operator Result<T>(T value)
+        {
+            return new Result<T>(value);
+        }
     }
 }
