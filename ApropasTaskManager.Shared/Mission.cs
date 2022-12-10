@@ -7,7 +7,7 @@ namespace ApropasTaskManager.Shared
 {
     /// <summary>
     /// The name "Task" is already taken,
-    /// i don't wont to write Shared.Task
+    /// i don't want to write Shared.Task
     /// </summary>
     public class Mission
     {

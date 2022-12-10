@@ -25,9 +25,11 @@ public class EfUnitOfWork : IUnitOfWork
     public IUserProfilesRepository UserProfiles => ReturnAndCreateIfNull(ref _userProfilesRepository, () => new(_db));
     private UserProfilesRepository _userProfilesRepository = null!;
 
-    public IProjectsRepository Projects => throw new NotImplementedException();
+    public IProjectsRepository Projects => ReturnAndCreateIfNull(ref _projectsRepository, () => new(_db));
+    private ProjectsRepository _projectsRepository = null!;
 
-    public IMissionsRepository Missions => throw new NotImplementedException();
+    public IMissionsRepository Missions => ReturnAndCreateIfNull(ref _missionsRepository, () => new(_db));
+    private MissionsRepository _missionsRepository = null!;
 
     private static T ReturnAndCreateIfNull<T>(ref T field, Func<T> creator)
     {
