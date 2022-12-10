@@ -1,3 +1,4 @@
+using ApropasTaskManager.DAL.EF;
 using ApropasTaskManager.Server;
 using ApropasTaskManager.Server.Services;
 using ApropasTaskManager.Shared;
@@ -14,9 +15,9 @@ var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.Configure<AuthOptions>(builder.Configuration.GetSection("Auth"));
 
-builder.Services.AddDbContext<ApplicationContext>( options =>
+builder.Services.AddDalEf( options =>
 {
-    options.UseSqlServer(connection)
+    options.UseSqlServer(connection, b => b.MigrationsAssembly("ApropasTaskManager.Server"))
            .UseLazyLoadingProxies();
 });
 

@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using ApropasTaskManager.DAL.EF;
 using ApropasTaskManager.Shared;
 using ApropasTaskManager.Shared.ViewModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

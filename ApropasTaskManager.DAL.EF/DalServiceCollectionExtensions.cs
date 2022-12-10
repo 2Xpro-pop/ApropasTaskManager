@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace ApropasTaskManager.DAL.EF;
 public static class DalServiceCollectionExtensions
 {
-    public static void AddEfDal(this IServiceCollection services, Action<DbContextOptionsBuilder> dbContextOptions, )
+    public static void AddDalEf(this IServiceCollection services, Action<DbContextOptionsBuilder> dbContextOptions)
     {
         services.AddDbContext<ApplicationContext>(dbContextOptions);
 

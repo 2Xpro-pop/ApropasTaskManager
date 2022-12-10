@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ApropasTaskManager.DAL\ApropasTaskManager.DAL.csproj" />
     <ProjectReference Include="..\ApropasTaskManager.Shared\ApropasTaskManager.Shared.csproj" />
   </ItemGroup>
 
