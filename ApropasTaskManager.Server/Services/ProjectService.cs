@@ -1,4 +1,6 @@
-﻿using ApropasTaskManager.DAL.EF;
+﻿using System.Reactive;
+using ApropasTaskManager.DAL.Abstractions;
+using ApropasTaskManager.DAL.EF;
 using ApropasTaskManager.Shared;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,55 +10,80 @@ namespace ApropasTaskManager.Server.Services;
 
 public class ProjectService : IProjectService
 {
-    private readonly ApplicationContext _db;
-    private readonly UserManager<User> _userManager;
+    private readonly IProjectsRepository _projects;
+    private readonly IUsersRepository _users;
 
-    public ProjectService(ApplicationContext db, UserManager<User> userManager)
+    public ProjectService(IUnitOfWork db)
     {
-        _db = db;
-        _userManager = userManager;
+        _projects = db.Projects;
+        _users = db.Users;
     }
 
     public async Task<Project> CreateProjectAsync(Project project)
     {
-        await _db.Projects.AddAsync(project);
-        await _db.SaveChangesAsync();
+        await _projects.CreateAsync(project);
+
         return project;
     }
 
-    public Task<Project?> FindByIdAsync(int id)
+    public async Task<Project?> FindByIdAsync(int id)
     {
-        return _db.Projects.FirstOrDefaultAsync(p => p.Id == id);
+        return await _projects.GetAsyncById(id);
     }
 
-    public async Task<RequestResult> PutUser(int projectId, string userId)
+    public async Task<Result<Unit>> PutUser(int projectId, string userId)
     {
-        var project = await FindByIdAsync(projectId);
+        var project = await _projects.GetAsyncById(projectId);
 
-        if (project == null)
+        if (!project)
         {
-            return RequestResult.Error(ServerDefaultResponses.ProjectNotFound);
+            return Result<Unit>.CreateError(project.Error);
         }
 
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await _users.GetAsyncById(userId);
 
-        if (user == null)
+        if (!user)
         {
-            return RequestResult.Error(ServerDefaultResponses.UserNotFound);
+            return Result<Unit>.CreateError(user.Error);
         }
 
-        project.Users.Add(user);
+        project.Value.Users.Add(user);
+        await _projects.UpdateAsync(project);
 
-        await _db.SaveChangesAsync();
-
-        return RequestResult.Success();
+        return Unit.Default;
     }
 
-    public async Task UpdateProjectAsync(Project project)
+    public async Task<Result<Unit>> PutManager(int projectId, string userId)
     {
-        _db.Projects.Update(project);
-        await _db.SaveChangesAsync();
+        var project = await _projects.GetAsyncById(projectId);
+
+        if (!project)
+        {
+            return Result<Unit>.CreateError(project.Error);
+        }
+
+        var manager = await _users.GetAsyncById(userId);
+
+        if (!manager)
+        {
+            return Result<Unit>.CreateError(manager.Error);
+        }
+
+        project.Value.ProjectManagerId = userId;
+        await _projects.UpdateAsync(project);
+
+        return Unit.Default;
     }
 
-    public Task<List<Project>> GetProjects() => _db.Projects.ToListAsync();
+    public Task UpdateProjectAsync(Project project)
+    {
+        return _projects.UpdateAsync(project);
+    }
+
+    public async Task<List<Project>> GetProjects()
+    {
+        var result = await _projects.GetAllAsync();
+
+        return await result.Value.ToListAsync();
+    }
 }

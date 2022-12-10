@@ -60,55 +60,18 @@ public class ProjectController : ControllerBase
     [Authorize(Roles = nameof(UserRoles.Director) + "," + nameof(UserRoles.ProjectManager))]
     public async Task<IActionResult> PutUser(int id, string userId)
     {
-        var user = await _userManager.FindByIdAsync(userId);
-
-        if (user == null)
-        {
-            return BadRequest(ServerDefaultResponses.UserNotFound);
-        }
-
-        if (user.Role == UserRoles.ProjectManager)
-        {
-
-        }
-
         var result = await _projectService.PutUser(id, userId);
-        if (result)
-        {
-            return Ok(1);
-        }
 
-        return BadRequest(result.ErrorName);
+        return this.OkOrBadRequest(result);
     }
 
     [HttpPut("select-manager/{id}/{userId}")]
     [Authorize(Roles = nameof(UserRoles.Director) + "," + nameof(UserRoles.ProjectManager))]
     public async Task<IActionResult> PutManager(int id, string userId)
     {
-        var user = await _userManager.FindByIdAsync(userId);
+        var result = await _projectService.PutManager(id, userId);
 
-        if (user == null)
-        {
-            return BadRequest(ServerDefaultResponses.UserNotFound);
-        }
-
-        if (user.Role != UserRoles.ProjectManager)
-        {
-            return BadRequest(ServerDefaultResponses.NotAuthorized);
-        }
-
-        var project = await _projectService.FindByIdAsync(id);
-
-        if (project == null)
-        {
-            return BadRequest(ServerDefaultResponses.ProjectNotFound);
-        }
-
-        project.ProjectManagerId = user.Id;
-
-        await _projectService.UpdateProjectAsync(project);
-
-        return Ok(1);
+        return this.OkOrBadRequest(result);
     }
 
     [HttpGet("{id}")]
