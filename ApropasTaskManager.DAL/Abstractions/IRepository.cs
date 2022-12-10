@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reactive;
 using System.Text;
@@ -10,9 +11,9 @@ namespace ApropasTaskManager.DAL.Abstractions
 {
     public interface IRepository<T> where T : class
     {
-        Task<Result<IEnumerable<T>>> GetAllAsync();
+        Task<Result<IQueryable<T>>> GetAllAsync();
         Task<Result<T>> GetAsyncById(object id);
-        Task<Result<IEnumerable<T>>> FindAsync(Expression<Func<T, bool>> predicate);
+        Task<Result<IQueryable<T>>> FindAsync(Expression<Func<T, bool>> predicate);
         Task<Result<Unit>> CreateAsync(T item);
         Task<Result<Unit>> UpdateAsync(T item);
         Task<Result<Unit>> Delete(object id);
