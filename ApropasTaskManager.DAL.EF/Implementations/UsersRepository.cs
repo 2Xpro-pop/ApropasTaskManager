@@ -14,12 +14,10 @@ using Microsoft.EntityFrameworkCore;
 namespace ApropasTaskManager.DAL.EF.Implementations;
 internal class UsersRepository: IUsersRepository
 {
-    private readonly ApplicationContext _db;
     private readonly UserManager<User> _users;
 
-    public UsersRepository(ApplicationContext db, UserManager<User> users)
+    public UsersRepository(UserManager<User> users)
     {
-        _db = db;
         _users = users;
     }
 
@@ -54,27 +52,25 @@ internal class UsersRepository: IUsersRepository
     }
 
 
-    public async Task<Result<IEnumerable<User>>> FindAsync(Expression<Func<User, bool>> predicate)
+    public async Task<Result<IQueryable<User>>> FindAsync(Expression<Func<User, bool>> predicate)
     {
-        return new Result<IEnumerable<User>>(
-            _users.Users.Where(predicate)
-        );
+        return new( _users.Users.Where(predicate) );
     }
 
-    public async Task<Result<IEnumerable<User>>> GetAllAsync() => await _users.Users.ToArrayAsync();
+    public async Task<Result<IQueryable<User>>> GetAllAsync() => new(_users.Users);
 
     public async Task<Result<User>> GetAsyncById(object id) => await _users.FindByIdAsync((string)id);
 
-    public async Task<Result<IEnumerable<User>>> GetPageAsync(int pageIndex, int pageSize)
+    public async Task<Result<IQueryable<User>>> GetPageAsync(int pageIndex, int pageSize)
     {
-        return _users.Users
+        return new (_users.Users
                      .Skip(pageIndex * pageSize)
-                     .Take(pageSize);
+                     .Take(pageSize));
     }
-    public async Task<Result<IEnumerable<User>>> GetPageWhere(int pageIndex, int pageSize, Expression<Func<User, bool>> predicate)
+    public async Task<Result<IQueryable<User>>> GetPageWhere(int pageIndex, int pageSize, Expression<Func<User, bool>> predicate)
     {
-        return (await GetPageAsync(pageIndex, pageSize)).Value
-                                                        .Where(predicate);
+        return new( (await GetPageAsync(pageIndex, pageSize)).Value
+                                                             .Where(predicate) );
     }
     public async Task<Result<Unit>> UpdateAsync(User user)
     {
@@ -85,6 +81,6 @@ internal class UsersRepository: IUsersRepository
             return Result<Unit>.CreateError(result.Errors);
         }
 
-        return  
+        return Unit.Default;
     }
 }
