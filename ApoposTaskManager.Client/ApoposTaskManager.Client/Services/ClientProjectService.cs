@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using ApoposTaskManager.Client.ViewModels;
+using ApropasTaskManager.BLL.DTO;
 using ApropasTaskManager.Shared.ViewModels;
 using Xamarin.Forms;
 
@@ -9,14 +11,14 @@ namespace ApoposTaskManager.Client.Services
 {
     public class ClientProjectService : IClientProjectService
     {
-        public async Task<IEnumerable<ProjectViewModel>> GetProjects()
+        public async Task<IEnumerable<ProjectDTO>> GetProjects()
         {
             var client = DependencyService.Get<IHttpClientFactory>().Create();
-            var result = await client.GetJsonAsync<List<ProjectViewModel>>("api/project");
+            var result = await client.GetJsonAsync<List<ProjectDTO>>("api/project");
             return result;
         }
 
-        public async Task<string> CreateProject(ProjectViewModel projectViewModel)
+        public async Task<string> CreateProject(CreateProjectViewModel projectViewModel)
         {
             var client = DependencyService.Get<IHttpClientFactory>().Create();
 

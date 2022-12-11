@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:rxui="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
              xmlns:vm="clr-namespace:ApoposTaskManager.Client.ViewModels"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="ApoposTaskManager.Client.Views.NewProjectPage"
              x:DataType="vm:NewProjectViewModel"
              x:TypeArguments="vm:NewProjectViewModel">
@@ -11,6 +12,29 @@
             <Label Text="{Binding Error}" Style="{StaticResource Warning}"/>
             <Entry Placeholder="Name" Text="{Binding Name}"/>
             <Entry Placeholder="Description"  Text="{Binding Description}"/>
+            <Label Text="{Binding Priority, StringFormat='Priority: {0}'}"/>
+            <Stepper Minimum="0" Maximum="10" Increment="1" Value="{Binding Priority, Mode=TwoWay}" />
+
+            <Frame BackgroundColor="AliceBlue">
+                <StackLayout Orientation="Horizontal">
+
+                    <xct:AvatarView Size="64" IsVisible="{Binding IsManagerSelected}"/>
+
+                    <StackLayout Margin="18,0,0,0" IsVisible="{Binding IsManagerSelected}">
+                        <Label Text="{Binding Manager.Name}" Style="{StaticResource Large}"/>
+                        <Label Text="{Binding Manager.Login, StringFormat='{0}'}" Style="{StaticResource Medium}"/>
+                    </StackLayout>
+
+                    <Label Text="Select manager" 
+                           IsVisible="{Binding IsManagerSelected, Converter={StaticResource InvertedBoolConverter}}"/>
+
+                </StackLayout>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1"
+                                          Command="{Binding SelectManager}"/>
+                </Frame.GestureRecognizers>
+            </Frame>
+            
             <Button Text="Save" Command="{Binding Save}" />
         </StackLayout>
     </ContentPage.Content>

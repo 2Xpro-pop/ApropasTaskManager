@@ -34,14 +34,22 @@ namespace ApropasTaskManager.BLL.Services
                 return Result<Unit>.CreateError(user.Error);
             }
 
-
-            return await _projects.CreateAsync(new Project()
+            var temp = new Project()
             {
                 Name = project.Name,
                 Description = project.Description,
                 Priority = project.Priority,
                 ProjectManagerId = project.ProjectManagerId,
-            });
+            };
+
+            var result =  await _projects.CreateAsync(temp);
+
+            if (result)
+            {
+                project.Id = temp.Id;
+            }
+
+            return result;
         }
 
         public async Task<Result<ProjectDTO>> FindByIdAsync(int id)
@@ -55,9 +63,21 @@ namespace ApropasTaskManager.BLL.Services
         {
             var result = await _projects.GetAllAsync();
 
-            return result.ResultOrError<IEnumerable<ProjectDTO>>(
-                projects => new List<ProjectDTO>( projects.Select(p => new ProjectDTO(p)) )
-            );
+            if (!result)
+            {
+                return result.ToError<IEnumerable<ProjectDTO>>();
+            }
+
+            var projects = result.Value.ToList();
+            var projectDTOs = new List<ProjectDTO>();
+
+            foreach (var project in projects)
+            {
+                var p = await SetManager(new ProjectDTO(project));
+                projectDTOs.Add(p);
+            }
+
+            return projectDTOs;
         }
         public async Task<Result<Unit>> PutManager(int projectId, string userId)
         {
@@ -120,6 +140,13 @@ namespace ApropasTaskManager.BLL.Services
         {
             var result = await _projects.UpdateAsync(project.ToProject());
             return result.ResultOrError(u => u);
+        }
+
+        private async Task<ProjectDTO> SetManager(ProjectDTO project)
+        {
+            project.ProjectManager = new UserDTO( await _users.GetAsyncById(project.ProjectManagerId) );
+
+            return project;
         }
     }
 }

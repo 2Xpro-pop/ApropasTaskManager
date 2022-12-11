@@ -28,8 +28,8 @@
                     <xct:AvatarView Size="64" IsVisible="{Binding IsManagerSelected}"/>
 
                     <StackLayout Margin="18,0,0,0" IsVisible="{Binding IsManagerSelected}">
-                        <Label Text="{Binding Manager.Profile.Name}" Style="{StaticResource Large}"/>
-                        <Label Text="{Binding Manager.Id, StringFormat='{0}'}" Style="{StaticResource Medium}"/>
+                        <Label Text="{Binding Manager.Name}" Style="{StaticResource Large}"/>
+                        <Label Text="{Binding Manager.Login, StringFormat='{0}'}" Style="{StaticResource Medium}"/>
                     </StackLayout>
 
                     <Label Text="Select manager" 

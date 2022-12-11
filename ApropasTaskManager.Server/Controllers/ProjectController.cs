@@ -1,4 +1,6 @@
 ﻿using System.Text.Json;
+using ApropasTaskManager.BLL.DTO;
+using ApropasTaskManager.BLL.Services;
 using ApropasTaskManager.Server.Services;
 using ApropasTaskManager.Shared;
 using ApropasTaskManager.Shared.ViewModels;
@@ -26,30 +28,22 @@ public class ProjectController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles = nameof(UserRoles.Director))]
-    public async Task<IActionResult> CreateProject([FromBody] ProjectViewModel projectViewModel)
+    public async Task<IActionResult> CreateProject([FromBody] ProjectDTO projectDto)
     {
-        var project = new Project();
-        projectViewModel.ApplyTo(project);
+        var result = await _projectService.CreateProjectAsync(projectDto);
 
-        await _projectService.CreateProjectAsync(project);
-
-        return Ok(project.Id);
+        return this.OkOrBadRequest(result, projectDto.Id);
     }
 
     [HttpPatch("{id}")]
-    public async Task<IActionResult> PatchProject(int id, [FromBody] JsonPatchDocument<ProjectViewModel> patchDocument)
+    public async Task<IActionResult> PatchProject(int id, [FromBody] JsonPatchDocument<CreateProjectViewModel> patchDocument)
     {
         var project = await _projectService.FindByIdAsync(id);
 
-        if (project == null)
+        if (project.Value == null)
         {
             return BadRequest(ServerDefaultResponses.ProjectNotFound);
         }
-
-        var projectVm = new ProjectViewModel(project);
-
-        patchDocument.ApplyTo(projectVm);
-        projectVm.ApplyTo(project);
 
         await _projectService.UpdateProjectAsync(project);
 
@@ -79,19 +73,19 @@ public class ProjectController : ControllerBase
     {
         var project = await _projectService.FindByIdAsync(id);
 
-        if (project == null)
+        if (project.Value == null)
         {
             return BadRequest(ServerDefaultResponses.ProjectNotFound);
         }
 
-        return Ok(new ProjectViewModel(project));
+        return Ok(project.Value);
     }
 
     [HttpGet]
-    public async Task<IEnumerable<ProjectViewModel>> GetProjects()
+    public async Task<IEnumerable<ProjectDTO>> GetProjects()
     {
         var projects = await _projectService.GetProjects();
 
-        return projects.OrderBy(p => p.Priority).Select(p => new ProjectViewModel(p));
+        return projects.Value;
     }
 }

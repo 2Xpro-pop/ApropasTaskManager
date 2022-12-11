@@ -25,4 +25,14 @@ public static class ControllerBaseExtensions
 
         return controller.BadRequest(result.Error);
     }
+
+    public static IActionResult OkOrBadRequest(this ControllerBase controller, Result<Unit> result, object value)
+    {
+        if (result)
+        {
+            return controller.Ok(value);
+        }
+
+        return controller.BadRequest(result.Error);
+    }
 }

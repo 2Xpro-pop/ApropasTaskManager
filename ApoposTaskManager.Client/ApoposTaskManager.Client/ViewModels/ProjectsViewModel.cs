@@ -8,6 +8,7 @@ using System.Text;
 using ApoposTaskManager.Client.Models;
 using ApoposTaskManager.Client.Services;
 using ApoposTaskManager.Client.Views;
+using ApropasTaskManager.BLL.DTO;
 using ApropasTaskManager.Shared;
 using ApropasTaskManager.Shared.ViewModels;
 using DynamicData;
@@ -24,13 +25,13 @@ namespace ApoposTaskManager.Client.ViewModels
         [Reactive] public bool IsDirector { get; set; }
         [Reactive] public bool IsBusy { get; set; }
 
-        public ObservableCollection<ProjectViewModel> Projects { get; } 
+        public ObservableCollection<ProjectDTO> Projects { get; } 
         public ReactiveCommand<Unit, Unit> LoadingProjects { get; }
         public ReactiveCommand<Unit, Unit> AddProject { get; }
-        public ReactiveCommand<ProjectViewModel, Unit> OpenProject { get; }
+        public ReactiveCommand<ProjectDTO, Unit> OpenProject { get; }
         public ProjectsViewModel()
         {
-            Projects = new ObservableCollection<ProjectViewModel>();
+            Projects = new ObservableCollection<ProjectDTO>();
 
             LoadingProjects = ReactiveCommand.CreateFromTask(async () =>
             {
@@ -58,7 +59,7 @@ namespace ApoposTaskManager.Client.ViewModels
                 this.WhenAnyValue(vm => vm.IsBusy).Select(b => !b))
             ;
 
-            OpenProject = ReactiveCommand.CreateFromTask(async (ProjectViewModel project) =>
+            OpenProject = ReactiveCommand.CreateFromTask(async (ProjectDTO project) =>
             {
                 var projectPage = new ProjectInfoPage
                 {

@@ -21,7 +21,7 @@ namespace ApoposTaskManager.Client.Views
 
         protected async override void OnAppearing()
         {
-            ViewModel.Manager = await DependencyService.Get<IUserService>().GetUserByIdAsync(ViewModel.ProjectManagerId);
+
         }
     }
 }

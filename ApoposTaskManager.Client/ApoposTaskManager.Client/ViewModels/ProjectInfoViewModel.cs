@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Reactive.Threading.Tasks;
 using System.Text;
 using System.Threading.Tasks;
 using ApoposTaskManager.Client.Services;
 using ApoposTaskManager.Client.Views;
+using ApropasTaskManager.BLL.DTO;
 using ApropasTaskManager.Shared.ViewModels;
 using DynamicData;
 using ReactiveUI;
@@ -14,21 +16,29 @@ using Xamarin.Forms;
 
 namespace ApoposTaskManager.Client.ViewModels
 {
-    public class ProjectInfoViewModel: ProjectViewModel
+    public class ProjectInfoViewModel
     {
-        [Reactive] public UserViewModel Manager { get; set; }
+        public int Id { get; }
+        [Reactive] public string Name { get; set; }
+        [Reactive] public string Description { get; set; }
+        [Reactive] public int Priority { get; set; }
+        [Reactive] public string ProjectManagerId { get; set; }
+        public ObservableCollection<UserDTO> Users { get; }
+        public ObservableCollection<MissionDTO> Missions { get; }
+        [Reactive] public UserDTO Manager { get; set; }
         [Reactive] public bool IsManagerSelected { get; set; }
         public ReactiveCommand<Unit, Unit> AddUsers { get; set; }
         public ReactiveCommand<Unit, Unit> SelectManager { get; set; }
-        public ProjectInfoViewModel(ProjectViewModel viewModel)
+        public ProjectInfoViewModel(ProjectDTO viewModel)
         {
             Id = viewModel.Id;
             Name = viewModel.Name;
             Description = viewModel.Description;
             Priority = viewModel.Priority;
             ProjectManagerId = viewModel.ProjectManagerId;
-            Users = viewModel.Users;
-            Missions = viewModel.Missions;
+            Manager = viewModel.ProjectManager;
+            Users = new ObservableCollection<UserDTO>(viewModel.Users);
+            Missions = new ObservableCollection<MissionDTO>(viewModel.Missions);
 
 
             AddUsers = ReactiveCommand.CreateFromTask(async () =>
@@ -37,8 +47,6 @@ namespace ApoposTaskManager.Client.ViewModels
                 page.ViewModel.Id = Id;
 
                 await Shell.Current.Navigation.PushAsync(page);
-
-                Users.Add(page.ViewModel.AddedEmployyes);
             });
 
             SelectManager = ReactiveCommand.CreateFromTask(async () =>
@@ -48,7 +56,7 @@ namespace ApoposTaskManager.Client.ViewModels
 
                 await Shell.Current.Navigation.PushAsync(page);
 
-                page.ViewModel.SelectManager.Subscribe(u => Manager = u);
+                /*page.ViewModel.SelectManager.Subscribe(u => Manager = u);*/
             });
 
             this.WhenAnyValue(vm => vm.Manager).Subscribe(m => IsManagerSelected = m != null);

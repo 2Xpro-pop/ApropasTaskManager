@@ -19,5 +19,19 @@ namespace ApoposTaskManager.Client.Views
 
             ViewModel = new NewProjectViewModel();
 		}
-	}
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.NewTextValue))
+            {
+                return;
+            }
+
+            if (!int.TryParse(e.NewTextValue, out _))
+            {
+                ((Entry)sender).Text = e.OldTextValue;
+            }
+        }
+
+    }
 }

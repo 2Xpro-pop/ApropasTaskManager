@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ApropasTaskManager.BLL\ApropasTaskManager.BLL.csproj" />
     <ProjectReference Include="..\..\ApropasTaskManager.Shared\ApropasTaskManager.Shared.csproj" />
   </ItemGroup>
 

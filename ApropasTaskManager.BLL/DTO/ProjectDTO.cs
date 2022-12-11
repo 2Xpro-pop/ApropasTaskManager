@@ -13,6 +13,7 @@ namespace ApropasTaskManager.BLL.DTO
         public string Description { get; set; }
         public int Priority { get; set; }
         public string ProjectManagerId { get; set; }
+        public UserDTO ProjectManager { get; set; }
         public IEnumerable<MissionDTO> Missions { get; set; }
         public IEnumerable<UserDTO> Users { get; set; }
 
