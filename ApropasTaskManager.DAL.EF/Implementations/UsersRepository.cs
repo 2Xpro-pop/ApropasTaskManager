@@ -23,15 +23,28 @@ internal class UsersRepository: IUsersRepository
 
     public async Task<Result<Unit>> CreateAsync(User user)
     {
-        var result  = await _users.CreateAsync(user);
-
-        if (!result.Succeeded)
+        if (await _users.FindByNameAsync(user.UserName) != null)
         {
-            return Result<Unit>.CreateError(result.Errors);
+            return Result<Unit>.CreateError(ServerDefaultResponses.UserExist);
         }
 
-        return Unit.Default;
+        var result  = await _users.CreateAsync(user);
+
+        return ToResult(result, Unit.Default);
     }
+
+    public async Task<Result<Unit>> CreateAsync(User user, string password)
+    {
+        if (await _users.FindByNameAsync(user.UserName) != null)
+        {
+            return Result<Unit>.CreateError(ServerDefaultResponses.UserExist);
+        }
+
+        var result = await _users.CreateAsync(user, password);
+
+        return ToResult(result, Unit.Default);
+    }
+
     public async Task<Result<Unit>> Delete(object id)
     {
         var user = await _users.FindByIdAsync((string)id);
@@ -43,12 +56,7 @@ internal class UsersRepository: IUsersRepository
 
         var result = await _users.DeleteAsync(user);
 
-        if (!result.Succeeded)
-        {
-            return Result<Unit>.CreateError(result.Errors);
-        }
-
-        return Unit.Default;
+        return ToResult(result, Unit.Default);
     }
 
 
@@ -76,11 +84,16 @@ internal class UsersRepository: IUsersRepository
     {
         var result = await _users.UpdateAsync(user);
 
+        return ToResult(result, Unit.Default);
+    }
+
+    private static Result<T> ToResult<T>(IdentityResult result, T value = default)
+    {
         if (!result.Succeeded)
         {
-            return Result<Unit>.CreateError(result.Errors);
+            return Result<T>.CreateError(result.Errors);
         }
 
-        return Unit.Default;
+        return value;
     }
 }

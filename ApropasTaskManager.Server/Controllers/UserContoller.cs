@@ -97,7 +97,7 @@ public class UserController : ControllerBase
 
     [HttpGet("{page}/{pageSize}")]
     [Authorize(Roles = nameof(UserRoles.Director) + "," + nameof(UserRoles.ProjectManager))]
-    public async Task<IActionResult> GetUsers(int page, int pageSize)
+    public async Task<IActionResult> GetUsers(int page, int pageSize, string name="-", string userRoles = "-")
     {
         var user = await _db.Users
                             .Include(u => u.Profile)

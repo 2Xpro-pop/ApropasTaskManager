@@ -68,7 +68,7 @@ namespace ApropasTaskManager.BLL.Services
                 return result.ToError<IEnumerable<ProjectDTO>>();
             }
 
-            var projects = result.Value.ToList();
+            var projects = result.Value.OrderBy(p => p.Priority).ToList();
             var projectDTOs = new List<ProjectDTO>();
 
             foreach (var project in projects)

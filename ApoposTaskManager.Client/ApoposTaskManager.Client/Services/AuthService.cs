@@ -39,7 +39,8 @@ namespace ApoposTaskManager.Client.Services
             var queryBuilder = new QueryBuilder
                     {
                         { "login", login },
-                        { "password", password }
+                        { "password", password },
+                        {"aer", new string[] {"123", "dasd" } }
                     };
 
             var response = await client.GetAsync("api/auth/login" + queryBuilder.ToString());

@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApropasTaskManager.DAL.EF",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApropasTaskManager.BLL", "ApropasTaskManager.BLL\ApropasTaskManager.BLL.csproj", "{8FFD3641-E794-4555-863E-57CE8DE036BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApropasTaskManager.Test", "ApropasTaskManager.Test\ApropasTaskManager.Test.csproj", "{28946586-24F7-43D3-ABAE-6F784849F0AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -143,6 +145,18 @@ Global
 		{8FFD3641-E794-4555-863E-57CE8DE036BC}.Release|iPhone.Build.0 = Release|Any CPU
 		{8FFD3641-E794-4555-863E-57CE8DE036BC}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{8FFD3641-E794-4555-863E-57CE8DE036BC}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{28946586-24F7-43D3-ABAE-6F784849F0AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28946586-24F7-43D3-ABAE-6F784849F0AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28946586-24F7-43D3-ABAE-6F784849F0AA}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{28946586-24F7-43D3-ABAE-6F784849F0AA}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{28946586-24F7-43D3-ABAE-6F784849F0AA}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{28946586-24F7-43D3-ABAE-6F784849F0AA}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{28946586-24F7-43D3-ABAE-6F784849F0AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28946586-24F7-43D3-ABAE-6F784849F0AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28946586-24F7-43D3-ABAE-6F784849F0AA}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{28946586-24F7-43D3-ABAE-6F784849F0AA}.Release|iPhone.Build.0 = Release|Any CPU
+		{28946586-24F7-43D3-ABAE-6F784849F0AA}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{28946586-24F7-43D3-ABAE-6F784849F0AA}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
